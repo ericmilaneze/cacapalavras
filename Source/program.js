@@ -1,25 +1,29 @@
 var cacaPalavras = require("./lib/cacaPalavras").cacaPalavras;
 
-
-
-var numeroDeLinhas = 25;
-var numeroDeColunas = 21;
-
-var jogoAtual = new cacaPalavras(numeroDeLinhas, numeroDeColunas, true, 10);
+var jogoAtual = new cacaPalavras(25, 21, true, 5);
 
 jogoAtual
-	.adicionarPalavraHorizontal("ERIC")
-	.adicionarPalavraHorizontal("ABEL")
-	.adicionarPalavraHorizontal("UBIRAJARA")
-	.adicionarPalavraHorizontal("ANTONIO")
-	.adicionarPalavraHorizontal("THIAGO")
-	.adicionarPalavraHorizontal("SUELEM")
-	.adicionarPalavraHorizontal("MARCIA")
-	.adicionarPalavraHorizontal("LAURA")
-	.adicionarPalavraHorizontal("SELMA")
-	.adicionarPalavraHorizontal("MIRIAN")
-	.preencherLetrasRestantes();
-
+	.adicionarPalavra("ERIC")
+	.adicionarPalavra("ABEL")
+	.adicionarPalavra("ICARO")
+	.adicionarPalavra("UBIRAJARA")
+	.adicionarPalavra("JOÃO")
+	.adicionarPalavra("THIAGO")
+	.adicionarPalavra("SUELEM")
+	.adicionarPalavra("MARCIA")
+	.adicionarPalavra("LAURA")
+	.adicionarPalavra("SELMA")
+	.adicionarPalavra("MIRIAN")
+	.adicionarPalavra("LUPERCIA")
+	.adicionarPalavra("VINICIUS")
+	.adicionarPalavra("RENAN")
+	.adicionarPalavra("MINA")
+	.adicionarPalavra("KELVIN")
+	.adicionarPalavra("FERNANDO")
+	.adicionarPalavra("MARIANA")
+	.adicionarPalavra("ALICE")
+	//.preencherLetrasRestantes();
+	.preencherLetrasRestantesComMesmasLetrasDasPalavrasAdicionadas();
 
 
 console.log(jogoAtual.getPalavras());

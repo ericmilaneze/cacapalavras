@@ -90,6 +90,76 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		return true;
 	};
 	
+	var tryAdicionarPalavraVertical = function(palavra, reverso, linhaInicial, colunaInicial) {
+		for(var i = linhaInicial; i < linhaInicial + palavra.length; i++) {
+			if(letras[i][colunaInicial] !== letraVazia)
+				if(!podeCruzar)
+					return false;
+				else if(letras[i][colunaInicial] !== (reverso ? palavra.split("").reverse().join("")[i - linhaInicial] : palavra[i - linhaInicial]))
+					return false;
+		}
+		
+		return true;
+	};
+	
+	this.adicionarPalavraVertical = function(palavra, linhaInicial, colunaInicial, reverso) {
+		if(palavra !== undefined) {
+			var palavraInterno = palavra.trim();
+			
+			var linhaInicialInterno = (linhaInicial === undefined || linhaInicial > numeroDeLinhas - palavraInterno.length) ? (Math.floor(Math.random() * (numeroDeLinhas - palavraInterno.length + 1))) : linhaInicial;
+
+			var colunaInicialInterno = (colunaInicial === undefined || colunaInicial >= numeroDeColunas) ? (Math.floor(Math.random() * numeroDeColunas)) : colunaInicial;
+
+			var reversoInterno = reverso === undefined ? (Math.floor(Math.random() * (chancesParaReverso === undefined ? 2 : chancesParaReverso)) == 0 ? true : false) : reverso;
+			
+			if(palavraInterno.length <= letras.length) { // se o tamanho da palavraInterno for menor ou igual o tamanho da linha
+				var linhaTentativa = linhaInicialInterno;
+				var colunaTentativa = colunaInicialInterno;
+				var tentativasFrustradasColunas = [];
+				
+				while(!tryAdicionarPalavraVertical(palavraInterno, reversoInterno, linhaTentativa, colunaTentativa)) {
+					var tentativasFrustradasMesmaColuna = [];
+					
+					do {	
+						tentativasFrustradasMesmaColuna.push(linhaTentativa);
+
+						if(tentativasFrustradasMesmaColuna.length == (numeroDeLinhas - palavraInterno.length + 1)) {
+							break;
+						}
+						else {
+							do { // linha não tentada ainda
+								linhaTentativa = Math.floor(Math.random() * (numeroDeLinhas - palavraInterno.length + 1));
+							} while(tentativasFrustradasMesmaColuna.indexOf(linhaTentativa) !== -1)
+						}
+					} while(!tryAdicionarPalavraVertical(palavraInterno, reversoInterno, linhaTentativa, colunaTentativa));
+					
+					if(!tryAdicionarPalavraVertical(palavraInterno, reversoInterno, linhaTentativa, colunaTentativa)) {
+						tentativasFrustradasColunas.push(colunaTentativa);
+						
+						if(tentativasFrustradasColunas.length == numeroDeColunas) {
+							break;
+						}
+						else {
+							while(tentativasFrustradasColunas.indexOf(colunaTentativa) !== -1) {
+								colunaTentativa = Math.floor(Math.random() * numeroDeColunas);
+							}
+						}
+					}
+				}
+			
+				if(tryAdicionarPalavraVertical(palavraInterno, reversoInterno, linhaTentativa, colunaTentativa)) {
+					for(var i = linhaTentativa; i < linhaTentativa + palavraInterno.length; i++) {
+						letras[i][colunaTentativa] = reversoInterno ? palavraInterno.split("").reverse().join("")[i - linhaTentativa] : palavraInterno[i - linhaTentativa];
+					}
+					
+					palavras.push(palavraInterno);
+				}
+			}
+		}
+		
+		return this;
+	}
+	
 	this.adicionarPalavraHorizontal = function(palavra, linhaInicial, colunaInicial, reverso) {
 		if(palavra !== undefined) {
 			var palavraInterno = palavra.trim();
@@ -143,6 +213,29 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 					palavras.push(palavraInterno);
 				}
 			}
+		}
+		
+		return this;
+	};
+	
+	this.adicionarPalavra = function(palavra, reverso, chancesParaHorizontal, chancesParaVertical) {
+		if(palavra !== undefined) {
+			var possibilidades = [];
+			
+			if(Math.floor((Math.random() * (chancesParaHorizontal === undefined ? 2 : chancesParaHorizontal))) === 0)
+				possibilidades.push("horizontal");
+			
+			if(Math.floor((Math.random() * (chancesParaVertical === undefined ? 2 : chancesParaVertical))) === 0)
+				possibilidades.push("vertical")
+			
+			var adicionarEscolhido = possibilidades[Math.floor(Math.random() * possibilidades.length)];
+			
+			if(adicionarEscolhido === "horizontal")
+				return this.adicionarPalavraHorizontal(palavra, undefined, undefined, reverso);
+			else if(adicionarEscolhido === "vertical")
+				return this.adicionarPalavraVertical(palavra, undefined, undefined, reverso);
+			
+			return this.adicionarPalavraHorizontal(palavra, undefined, undefined, reverso);
 		}
 		
 		return this;
