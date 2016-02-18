@@ -3,30 +3,31 @@ var cacaPalavras = require("./lib/cacaPalavras").cacaPalavras;
 var jogoAtual = new cacaPalavras(25, 21, true, 5);
 
 jogoAtual
-	.adicionarPalavra("ERIC")
-	.adicionarPalavra("ABEL")
-	.adicionarPalavra("ICARO")
-	.adicionarPalavra("UBIRAJARA")
-	.adicionarPalavra("JOÃO")
-	.adicionarPalavra("THIAGO")
-	.adicionarPalavra("SUELEM")
-	.adicionarPalavra("MARCIA")
-	.adicionarPalavra("LAURA")
-	.adicionarPalavra("SELMA")
-	.adicionarPalavra("MIRIAN")
-	.adicionarPalavra("LUPERCIA")
-	.adicionarPalavra("VINICIUS")
-	.adicionarPalavra("RENAN")
-	.adicionarPalavra("MINA")
-	.adicionarPalavra("KELVIN")
-	.adicionarPalavra("FERNANDO")
-	.adicionarPalavra("MARIANA")
-	.adicionarPalavra("ALICE")
-	//.preencherLetrasRestantes();
-	.preencherLetrasRestantesComMesmasLetrasDasPalavrasAdicionadas();
+	.adicionarPalavras([ 
+		'Eric',
+		'Abel',
+		'Ícaro',
+		'Ubirajara',
+		'João',
+		'Thiago',
+		'Suelem',
+		'Marcia',
+		'Laura',
+		'Selma',
+		'Mirian',
+		'Lupércia',
+		'Vinicius',
+		'Renan',
+		'Mina',
+		'Kelvin',
+		'Fernando',
+		'Mariana',
+		'Alice' 
+	])
+	.preencherLetrasRestantes({mesmaLetraDasPalavras: true, previamenteDefinido: [["a", "b"],["C", "D"]]});
 
 
-console.log(jogoAtual.getPalavras());
+console.log(jogoAtual.getShowPalavras());
 
 
 console.log("\n");
