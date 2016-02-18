@@ -45,7 +45,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		var output = "";
 		
 		for(var i = 0; i < palavras.length; i++) {
-			output += palavras[i] + (i < palavras.length - 1 ? "\n" : "");
+			output += palavras[i].palavra + (i < palavras.length - 1 ? "\n" : "");
 		}
 		
 		return output;
@@ -114,8 +114,8 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		var letrasParaAdicionar = "";
 		
 		for(var i = 0; i < palavras.length; i++) {
-			for(var j = 0; j < palavras[i].length; j++) {
-				letrasParaAdicionar += palavras[i][j];
+			for(var j = 0; j < palavras[i].palavra.length; j++) {
+				letrasParaAdicionar += palavras[i].palavra[j];
 			}
 		}
 		
@@ -146,15 +146,15 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		return true;
 	};
 	
-	this.adicionarPalavraVertical = function(palavra, linhaInicial, colunaInicial, reverso) {
-		if(palavra !== undefined) {
-			var palavraInterno = palavra.trim();
+	this.adicionarPalavraVertical = function(palavra) {
+		if(palavra !== undefined && palavra.palavra !== undefined) {
+			var palavraInterno = palavra.palavra.trim();
 			
-			var linhaInicialInterno = (linhaInicial === undefined || linhaInicial > numeroDeLinhas - palavraInterno.length) ? (Math.floor(Math.random() * (numeroDeLinhas - palavraInterno.length + 1))) : linhaInicial;
+			var linhaInicialInterno = (palavra.linhaInicial === undefined || palavra.linhaInicial > numeroDeLinhas - palavraInterno.length) ? (Math.floor(Math.random() * (numeroDeLinhas - palavraInterno.length + 1))) : linhaInicial;
 
-			var colunaInicialInterno = (colunaInicial === undefined || colunaInicial >= numeroDeColunas) ? (Math.floor(Math.random() * numeroDeColunas)) : colunaInicial;
+			var colunaInicialInterno = (palavra.colunaInicial === undefined || palavra.colunaInicial >= numeroDeColunas) ? (Math.floor(Math.random() * numeroDeColunas)) : palavra.colunaInicial;
 
-			var reversoInterno = reverso === undefined ? (Math.floor(Math.random() * (chancesParaReverso === undefined ? 2 : chancesParaReverso)) == 0 ? true : false) : reverso;
+			var reversoInterno = palavra.reverso === undefined ? (Math.floor(Math.random() * (chancesParaReverso === undefined ? 2 : chancesParaReverso)) == 0 ? true : false) : palavra.reverso;
 			
 			if(palavraInterno.length <= letras.length) { // se o tamanho da palavraInterno for menor ou igual o tamanho da linha
 				var linhaTentativa = linhaInicialInterno;
@@ -196,7 +196,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 						letras[i][colunaTentativa] = reversoInterno ? palavraInterno.split("").reverse().join("")[i - linhaTentativa] : palavraInterno[i - linhaTentativa];
 					}
 					
-					palavras.push(palavraInterno);
+					palavras.push({ palavra: palavraInterno, linhaInicial: linhaTentativa, colunaInicial: colunaTentativa, reverso: reversoInterno });
 				}
 			}
 		}
@@ -204,15 +204,15 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		return this;
 	}
 	
-	this.adicionarPalavraHorizontal = function(palavra, linhaInicial, colunaInicial, reverso) {
-		if(palavra !== undefined) {
-			var palavraInterno = palavra.trim();
+	this.adicionarPalavraHorizontal = function(palavra) {
+		if(palavra !== undefined && palavra.palavra !== undefined) {
+			var palavraInterno = palavra.palavra.trim();
 			
-			var linhaInicialInterno = (linhaInicial === undefined || linhaInicial >= numeroDeLinhas) ? (Math.floor(Math.random() * numeroDeLinhas)) : linhaInicial;
+			var linhaInicialInterno = (palavra.linhaInicial === undefined || palavra.linhaInicial >= numeroDeLinhas) ? (Math.floor(Math.random() * numeroDeLinhas)) : palavra.linhaInicial;
 
-			var colunaInicialInterno = (colunaInicial === undefined || colunaInicial > numeroDeColunas - palavraInterno.length) ? (Math.floor(Math.random() * (numeroDeColunas - palavraInterno.length + 1))) : colunaInicial;
+			var colunaInicialInterno = (palavra.colunaInicial === undefined || palavra.colunaInicial > numeroDeColunas - palavraInterno.length) ? (Math.floor(Math.random() * (numeroDeColunas - palavraInterno.length + 1))) : palavra.colunaInicial;
 
-			var reversoInterno = reverso === undefined ? (Math.floor(Math.random() * (chancesParaReverso === undefined ? 2 : chancesParaReverso)) == 0 ? true : false) : reverso;
+			var reversoInterno = palavra.reverso === undefined ? (Math.floor(Math.random() * (chancesParaReverso === undefined ? 2 : chancesParaReverso)) == 0 ? true : false) : palavra.reverso;
 			
 			if(palavraInterno.length <= letras[linhaInicialInterno].length) { // se o tamanho da palavraInterno for menor ou igual o tamanho da linha
 				var linhaTentativa = linhaInicialInterno;
@@ -254,7 +254,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 						letras[linhaTentativa][i] = reversoInterno ? palavraInterno.split("").reverse().join("")[i - colunaTentativa] : palavraInterno[i - colunaTentativa];
 					}
 					
-					palavras.push(palavraInterno);
+					palavras.push({ palavra: palavraInterno, linhaInicial: linhaTentativa, colunaInicial: colunaTentativa, reverso: reversoInterno });
 				}
 			}
 		}
@@ -262,8 +262,8 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		return this;
 	};
 	
-	this.adicionarPalavra = function(palavra, reverso, chancesParaHorizontal, chancesParaVertical) {
-		if(palavra !== undefined) {
+	this.adicionarPalavra = function(palavra, chancesParaHorizontal, chancesParaVertical) {
+		if(palavra !== undefined && palavra.palavra !== undefined) {
 			var possibilidades = [];
 			
 			if(Math.floor((Math.random() * (chancesParaHorizontal === undefined ? 2 : chancesParaHorizontal))) === 0)
@@ -275,11 +275,11 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 			var adicionarEscolhido = possibilidades[Math.floor(Math.random() * possibilidades.length)];
 			
 			if(adicionarEscolhido === "horizontal")
-				return this.adicionarPalavraHorizontal(palavra, undefined, undefined, reverso);
+				return this.adicionarPalavraHorizontal(palavra);
 			else if(adicionarEscolhido === "vertical")
-				return this.adicionarPalavraVertical(palavra, undefined, undefined, reverso);
+				return this.adicionarPalavraVertical(palavra);
 			
-			return this.adicionarPalavraHorizontal(palavra, undefined, undefined, reverso);
+			return this.adicionarPalavraHorizontal(palavra);
 		}
 		
 		return this;
@@ -287,7 +287,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	
 	this.adicionarPalavras = function(palavrasParaAdicionar) {
 		for(var i = 0; i < palavrasParaAdicionar.length; i++)
-			this.adicionarPalavra(palavrasParaAdicionar[i]);
+			this.adicionarPalavra({ palavra: palavrasParaAdicionar[i] });
 		
 		return this;
 	};
