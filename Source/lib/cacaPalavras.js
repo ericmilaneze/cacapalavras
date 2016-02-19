@@ -3,8 +3,11 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		letrasParaPreenchimento = []
 		letrasTudoPreenchido = [];
 	
+	var horizontal = "horizontal";
+	var vertical = "vertical";
+	
 	var letraVazia = " ";
-
+	
 	for(var i = 0; i < numeroDeLinhas; i++) {
 		letras[i] = [];
 	
@@ -146,9 +149,11 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		return true;
 	};
 	
-	this.adicionarPalavraVertical = function(palavra) {
+	this.adicionarPalavraVertical = function(palavra, deveContinuarTentandoCasoCruzeErradoOutraPalavra) {
 		if(palavra !== undefined && palavra.palavra !== undefined) {
 			var palavraInterno = palavra.palavra.trim();
+			
+			var deveContinuarTentandoCasoCruzeErradoOutraPalavraInterno = deveContinuarTentandoCasoCruzeErradoOutraPalavra === undefined ? false : deveContinuarTentandoCasoCruzeErradoOutraPalavra;
 			
 			var linhaInicialInterno = (palavra.linhaInicial === undefined || palavra.linhaInicial > numeroDeLinhas - palavraInterno.length) ? (Math.floor(Math.random() * (numeroDeLinhas - palavraInterno.length + 1))) : linhaInicial;
 
@@ -161,7 +166,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 				var colunaTentativa = colunaInicialInterno;
 				var tentativasFrustradasColunas = [];
 				
-				while(!tryAdicionarPalavraVertical(palavraInterno, reversoInterno, linhaTentativa, colunaTentativa)) {
+				while(!tryAdicionarPalavraVertical(palavraInterno, reversoInterno, linhaTentativa, colunaTentativa) && deveContinuarTentandoCasoCruzeErradoOutraPalavraInterno) {
 					var tentativasFrustradasMesmaColuna = [];
 					
 					do {	
@@ -196,7 +201,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 						letras[i][colunaTentativa] = reversoInterno ? palavraInterno.split("").reverse().join("")[i - linhaTentativa] : palavraInterno[i - linhaTentativa];
 					}
 					
-					palavras.push({ palavra: palavraInterno, linhaInicial: linhaTentativa, colunaInicial: colunaTentativa, reverso: reversoInterno });
+					palavras.push({ palavra: palavraInterno, linhaInicial: linhaTentativa, colunaInicial: colunaTentativa, reverso: reversoInterno, direcao: [vertical] });
 				}
 			}
 		}
@@ -204,9 +209,11 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		return this;
 	}
 	
-	this.adicionarPalavraHorizontal = function(palavra) {
+	this.adicionarPalavraHorizontal = function(palavra, deveContinuarTentandoCasoCruzeErradoOutraPalavra) {
 		if(palavra !== undefined && palavra.palavra !== undefined) {
 			var palavraInterno = palavra.palavra.trim();
+			
+			var deveContinuarTentandoCasoCruzeErradoOutraPalavraInterno = deveContinuarTentandoCasoCruzeErradoOutraPalavra === undefined ? false : deveContinuarTentandoCasoCruzeErradoOutraPalavra;
 			
 			var linhaInicialInterno = (palavra.linhaInicial === undefined || palavra.linhaInicial >= numeroDeLinhas) ? (Math.floor(Math.random() * numeroDeLinhas)) : palavra.linhaInicial;
 
@@ -219,7 +226,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 				var colunaTentativa = colunaInicialInterno;
 				var tentativasFrustradasLinhas = [];
 			
-				while(!tryAdicionarPalavraHorizontal(palavraInterno, reversoInterno, linhaTentativa, colunaTentativa)) {
+				while(!tryAdicionarPalavraHorizontal(palavraInterno, reversoInterno, linhaTentativa, colunaTentativa) && deveContinuarTentandoCasoCruzeErradoOutraPalavraInterno) {
 					var tentativasFrustradasMesmaLinha = [];
 					
 					do {	
@@ -254,7 +261,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 						letras[linhaTentativa][i] = reversoInterno ? palavraInterno.split("").reverse().join("")[i - colunaTentativa] : palavraInterno[i - colunaTentativa];
 					}
 					
-					palavras.push({ palavra: palavraInterno, linhaInicial: linhaTentativa, colunaInicial: colunaTentativa, reverso: reversoInterno });
+					palavras.push({ palavra: palavraInterno, linhaInicial: linhaTentativa, colunaInicial: colunaTentativa, reverso: reversoInterno, direcao: [horizontal] });
 				}
 			}
 		}
@@ -267,19 +274,28 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 			var possibilidades = [];
 			
 			if(Math.floor((Math.random() * (chancesParaHorizontal === undefined ? 2 : chancesParaHorizontal))) === 0)
-				possibilidades.push("horizontal");
+				possibilidades.push(horizontal);
 			
 			if(Math.floor((Math.random() * (chancesParaVertical === undefined ? 2 : chancesParaVertical))) === 0)
-				possibilidades.push("vertical")
+				possibilidades.push(vertical)
 			
 			var adicionarEscolhido = possibilidades[Math.floor(Math.random() * possibilidades.length)];
 			
-			if(adicionarEscolhido === "horizontal")
-				return this.adicionarPalavraHorizontal(palavra);
-			else if(adicionarEscolhido === "vertical")
-				return this.adicionarPalavraVertical(palavra);
+			if(adicionarEscolhido === horizontal) {
+				palavra.direcao = [horizontal];
+				
+				return this.adicionarPalavraHorizontal(palavra, true);
+			}
+			else if(adicionarEscolhido === vertical) {
+				palavra.direcao = [vertical];
+				
+				return this.adicionarPalavraVertical(palavra, true);
+			}
 			
-			return this.adicionarPalavraHorizontal(palavra);
+			
+			palavra.direcao = [horizontal];
+			
+			return this.adicionarPalavraHorizontal(palavra, true);
 		}
 		
 		return this;
