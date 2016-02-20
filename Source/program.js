@@ -29,7 +29,9 @@ jogoAtual
 	// .adicionarPalavraVertical({ palavra: "MARIAN", reverso: true, linhaInicial: 0, colunaInicial: 2 }, true)
 	//.adicionarPalavraDiagonalNordesteSudoeste({ palavra: "THIAGO", reverso: false, linhaInicial: 4, colunaInicial: 0 }, true)
 	// .adicionarPalavraDiagonalNoroesteSudeste({ palavra: "LUPERCIA" }, true)
-	.preencherLetrasRestantes({mesmaLetraDasPalavras: true, previamenteDefinido: [["a", "b"],["C", "D"]]});
+	.preencherLetrasRestantes(jogoAtual.setPosicaoLetrasParaPreenchimentoPreviamenteDefinidas(
+			{ mesmaLetraDasPalavras: true, previamenteDefinido: [["a", "b"],["C", "D"]] }
+		, 1, 4, "Z"));
 
 
 console.log(jogoAtual.getShowPalavras());

@@ -56,6 +56,25 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		return output;
 	};
 	
+	this.setPosicaoLetrasParaPreenchimentoPreviamenteDefinidas = function(preenchimento, linha, coluna, letra) {
+		var preenchimentoInterno = preenchimento === undefined ? { previamenteDefinido: [] } : preenchimento;
+		preenchimentoInterno.previamenteDefinido = preenchimentoInterno.previamenteDefinido === undefined ? [] : preenchimentoInterno.previamenteDefinido;
+		
+		for(var i = 0; i < numeroDeLinhas; i++) {
+			if(preenchimentoInterno.previamenteDefinido[i] === undefined)
+				preenchimentoInterno.previamenteDefinido[i] = [];
+		
+			for(var j = 0; j < numeroDeColunas; j++) {
+				if(preenchimentoInterno.previamenteDefinido[i][j] === undefined)
+					preenchimentoInterno.previamenteDefinido[i][j] = letraVazia;
+			}
+		}
+		
+		preenchimentoInterno.previamenteDefinido[linha][coluna] = letra;
+		
+		return preenchimentoInterno;
+	}
+	
 	this.preencherLetrasRestantes = function(preenchimento) { //letrasAceitas) {
 		formarLetrasParaPreenchimento(preenchimento);
 		
@@ -93,7 +112,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 					preenchimentoInterno.previamenteDefinido[i] = [];
 			
 				for(var j = 0; j < numeroDeColunas; j++) {
-					if(preenchimentoInterno.previamenteDefinido[i][j] === undefined)
+					if(preenchimentoInterno.previamenteDefinido[i][j] === undefined || preenchimentoInterno.previamenteDefinido[i][j].trim().toUpperCase() === letraVazia.trim().toUpperCase())
 						letrasParaPreenchimento[i][j] = letrasPossiveis[Math.floor(Math.random() * letrasPossiveis.length)];
 					else
 						letrasParaPreenchimento[i][j] = preenchimentoInterno.previamenteDefinido[i][j];
