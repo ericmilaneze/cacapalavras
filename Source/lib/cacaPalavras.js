@@ -10,19 +10,36 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	
 	var letraVazia = " ";
 	
-	for(var i = 0; i < numeroDeLinhas; i++) {
-		letras[i] = [];
-	
-		for(var j = 0; j < numeroDeColunas; j++) {
-			letras[i][j] = letraVazia;
+	var getInicializarLetras = function() {
+		var retorno = [];
+		
+		for(var i = 0; i < numeroDeLinhas; i++) {
+			retorno[i] = [];
+		
+			for(var j = 0; j < numeroDeColunas; j++) {
+				retorno[i][j] = letraVazia;
+			}
 		}
-	}
+		
+		return retorno;
+	};
+	
+	letras = getInicializarLetras();
 	
 	var getCopiaLetras = function() {
 		var retorno = [];
 		
 		for(var i = 0; i < letras.length; i++)
 			retorno.push(letras[i].slice());
+		
+		return retorno;
+	};
+	
+	var getCopiaPalavras = function() {
+		var retorno = [];
+		
+		for(var i = 0; i < palavras.length; i++)
+			retorno.push(palavras[i]);
 		
 		return retorno;
 	};
@@ -124,11 +141,11 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	};
 	
 	var getLetrasAceitas = function(preenchimento) {
-		return (preenchimento.letrasAceitas === undefined || preenchimento.letrasAceitas.trim() === "") ? "ABCDEFGHIJKLMNOPQRSTUVWXYZ" : preenchimento.letrasAceitas;
+		return (preenchimento === undefined || preenchimento.letrasAceitas === undefined || preenchimento.letrasAceitas.trim() === "") ? "ABCDEFGHIJKLMNOPQRSTUVWXYZ" : preenchimento.letrasAceitas;
 	};
 	
 	var getLetrasPossiveis = function(preenchimento) {
-		if(preenchimento.mesmaLetraDasPalavras !== undefined && preenchimento.mesmaLetraDasPalavras === true)
+		if(preenchimento !== undefined && preenchimento.mesmaLetraDasPalavras !== undefined && preenchimento.mesmaLetraDasPalavras === true)
 			return getLetrasComMesmasLetrasDasPalavrasAdicionadas(preenchimento.letrasAceitas);
 		else
 			return getLetrasAceitas(preenchimento);
@@ -218,8 +235,17 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 			);
 	};
 	
+	var palavraJaExiste = function(palavra) {
+		for(var i = 0; i < palavras.length; i++) {
+			if(palavras[i].palavra.trim().toUpperCase() === palavra.palavra.trim().toUpperCase())
+				return true;
+		}
+		
+		return false;
+	};
+	
 	this.adicionarPalavraVertical = function(palavra, deveContinuarTentandoCasoCruzeErradoOutraPalavra) {
-		if(palavra !== undefined && palavra.palavra !== undefined) {
+		if(palavra !== undefined && palavra.palavra !== undefined && !palavraJaExiste(palavra)) {
 			var palavraInterno = palavra.palavra.trim();
 			
 			var deveContinuarTentandoCasoCruzeErradoOutraPalavraInterno = deveContinuarTentandoCasoCruzeErradoOutraPalavra === undefined ? false : deveContinuarTentandoCasoCruzeErradoOutraPalavra;
@@ -287,7 +313,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	};
 	
 	this.adicionarPalavraHorizontal = function(palavra, deveContinuarTentandoCasoCruzeErradoOutraPalavra) {
-		if(palavra !== undefined && palavra.palavra !== undefined) {
+		if(palavra !== undefined && palavra.palavra !== undefined && !palavraJaExiste(palavra)) {
 			var palavraInterno = palavra.palavra.trim();
 			
 			var deveContinuarTentandoCasoCruzeErradoOutraPalavraInterno = deveContinuarTentandoCasoCruzeErradoOutraPalavra === undefined ? false : deveContinuarTentandoCasoCruzeErradoOutraPalavra;
@@ -354,7 +380,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	};
 	
 	this.adicionarPalavraDiagonalNoroesteSudeste = function(palavra, deveContinuarTentandoCasoCruzeErradoOutraPalavra) {
-		if(palavra !== undefined && palavra.palavra !== undefined) {
+		if(palavra !== undefined && palavra.palavra !== undefined && !palavraJaExiste(palavra)) {
 			var palavraInterno = palavra.palavra.trim();
 			
 			var deveContinuarTentandoCasoCruzeErradoOutraPalavraInterno = deveContinuarTentandoCasoCruzeErradoOutraPalavra === undefined ? false : deveContinuarTentandoCasoCruzeErradoOutraPalavra;
@@ -427,7 +453,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	};
 	
 	this.adicionarPalavraDiagonalNordesteSudoeste = function(palavra, deveContinuarTentandoCasoCruzeErradoOutraPalavra) {
-		if(palavra !== undefined && palavra.palavra !== undefined) {
+		if(palavra !== undefined && palavra.palavra !== undefined && !palavraJaExiste(palavra)) {
 			var palavraInterno = palavra.palavra.trim();
 			
 			var deveContinuarTentandoCasoCruzeErradoOutraPalavraInterno = deveContinuarTentandoCasoCruzeErradoOutraPalavra === undefined ? false : deveContinuarTentandoCasoCruzeErradoOutraPalavra;
@@ -506,20 +532,26 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		if(palavra !== undefined && palavra.palavra !== undefined) {
 			var possibilidades = [];
 			
-			if(Math.floor((Math.random() * (chancesParaHorizontal === undefined ? 2 : chancesParaHorizontal))) === 0)
-				possibilidades.push(horizontal);
+			if(palavra.direcao === undefined || palavra.direcao === []) {
+				if(Math.floor((Math.random() * (chancesParaHorizontal === undefined ? 2 : chancesParaHorizontal))) === 0)
+					possibilidades.push(horizontal);
+				
+				if(Math.floor((Math.random() * (chancesParaVertical === undefined ? 2 : chancesParaVertical))) === 0)
+					possibilidades.push(vertical)
+				
+				if(Math.floor((Math.random() * (chancesParaNoroesteSudeste === undefined ? 2 : chancesParaNoroesteSudeste))) === 0)
+					possibilidades.push(diagonalNoroesteSudeste)
+				
+				if(Math.floor((Math.random() * (chancesParaNordesteSudoeste === undefined ? 2 : chancesParaNordesteSudoeste))) === 0)
+					possibilidades.push(diagonalNordesteSudoeste)
+			}
+			else {
+				possibilidades.push(palavra.direcao[0]);
+			}
 			
-			if(Math.floor((Math.random() * (chancesParaVertical === undefined ? 2 : chancesParaVertical))) === 0)
-				possibilidades.push(vertical)
 			
-			if(Math.floor((Math.random() * (chancesParaNoroesteSudeste === undefined ? 2 : chancesParaNoroesteSudeste))) === 0)
-				possibilidades.push(diagonalNoroesteSudeste)
-			
-			if(Math.floor((Math.random() * (chancesParaNordesteSudoeste === undefined ? 2 : chancesParaNordesteSudoeste))) === 0)
-				possibilidades.push(diagonalNordesteSudoeste)
-			
-			
-			var adicionarEscolhido = possibilidades[Math.floor(Math.random() * possibilidades.length)];
+			var adicionarEscolhido = possibilidades.length === 0 ? horizontal : possibilidades[Math.floor(Math.random() * possibilidades.length)];
+
 			
 			if(adicionarEscolhido === horizontal) {
 				palavra.direcao = [horizontal];
@@ -553,6 +585,24 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		return this;
 	};
 	
+	this.removerPalavra = function(palavra, preenchimento) {
+		if(palavra !== undefined && palavra.palavra !== undefined) {
+			var palavrasTemp = getCopiaPalavras();
+			
+			palavras = [];
+			letras = getInicializarLetras();
+			
+			for(var i = 0; i < palavrasTemp.length; i++) {
+				if(palavrasTemp[i].palavra.trim().toUpperCase() !== palavra.palavra.trim().toUpperCase())
+					this.adicionarPalavra(palavrasTemp[i]);
+			}
+			
+			this.preencherLetrasRestantes(preenchimento);
+		}
+	
+		return this;
+	};
+	
 	this.getLetra = function(linha, coluna) {
 		return letras[linha][coluna];
 	};
@@ -563,6 +613,21 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	
 	this.getPalavras = function() {
 		return palavras;
+	};
+	
+	this.getPalavra = function(palavra) {
+		if(palavra !== undefined && palavra.palavra !== undefined) {
+			for(var i = 0; i < palavras.length; i++) {
+				if(palavra.palavra.trim().toUpperCase() === palavras[i].palavra.trim().toUpperCase())
+					return palavras[i];
+			}
+		}
+	
+		return null;
+	};
+	
+	this.getLetrasParaPreenchimento = function() {
+		return letrasParaPreenchimento;
 	};
 };
 
