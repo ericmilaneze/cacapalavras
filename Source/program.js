@@ -2,11 +2,6 @@ var cacaPalavras = require("./lib/cacaPalavras").cacaPalavras;
 
 
 
-
-
-
-
-
 function mostrar() {
 	console.log(jogoAtual.getShowPalavras());
 	
@@ -26,13 +21,12 @@ function mostrar() {
 
 
 
-var jogoAtual = new cacaPalavras(25, 21, true, 5);
+var jogoAtual = new cacaPalavras(24, 21, true, 5);
 
 jogoAtual.adicionarPalavras({ palavrasParaAdicionar: ["Eric", "Thiago", "Marcia", "Selma", "Suelem", "Renan"], preenchimento: { mesmaLetraDasPalavras: true } });
 
 mostrar();
-
-jogoAtual.adicionarPalavra({ palavra: "Vinicius" });
+jogoAtual.adicionarPalavra({ palavra: "Vinicius" }, 2, 2, 2, 2, { letrasAceitas: "X" });
 
 mostrar();
 

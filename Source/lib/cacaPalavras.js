@@ -9,22 +9,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	var diagonalNordesteSudoeste = "diagonalNordesteSudoeste";
 	
 	var letraVazia = " ";
-	
-	var getInicializarLetras = function() {
-		var retorno = [];
-		
-		for(var i = 0; i < numeroDeLinhas; i++) {
-			retorno[i] = [];
-		
-			for(var j = 0; j < numeroDeColunas; j++) {
-				retorno[i][j] = letraVazia;
-			}
-		}
-		
-		return retorno;
-	};
-	
-	letras = getInicializarLetras();
+		var init = function() {		letras = getInicializarLetras();	};		var getInicializarLetras = function() {		var retorno = [];				for(var i = 0; i < numeroDeLinhas; i++) {			retorno[i] = [];					for(var j = 0; j < numeroDeColunas; j++) {				retorno[i][j] = letraVazia;			}		}				return retorno;	};
 	
 	var getCopiaLetras = function() {
 		var retorno = [];
@@ -586,8 +571,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 				this.adicionarPalavra({ palavra: configInterno.palavrasParaAdicionar[i] }, configInterno.chancesParaHorizontal, configInterno.chancesParaVertical, configInterno.chancesParaNoroesteSudeste, configInterno.chancesParaNordesteSudoeste, config.preenchimento);		}
 		
 		return this;
-	};
-	
+	};	
 	this.removerPalavra = function(palavra, preenchimento) {
 		if(palavra !== undefined && palavra.palavra !== undefined) {
 			var palavrasTemp = getCopiaPalavras();
@@ -631,11 +615,11 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	
 	this.getLetrasParaPreenchimento = function() {
 		return letrasParaPreenchimento;
-	};
+	};			init();
 };
 
 
 
 
-if(exports !== undefined)
+if(typeof exports !== "undefined")
 	exports.cacaPalavras = cacaPalavras;
