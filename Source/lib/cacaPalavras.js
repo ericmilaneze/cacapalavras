@@ -1,7 +1,8 @@
-var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chancesParaReverso) {	var palavras = [],
-		letras = [],
-		letrasParaPreenchimento = []
-		letrasTudoPreenchido = [];
+var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chancesParaReverso) {
+	var palavras = [];
+    var letras = [];
+	var letrasParaPreenchimento = [];
+	var letrasTudoPreenchido = [];
 	
 	var horizontal = "horizontal";
 	var vertical = "vertical";
@@ -9,7 +10,24 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	var diagonalNordesteSudoeste = "diagonalNordesteSudoeste";
 	
 	var letraVazia = " ";
-		var init = function() {		letras = getInicializarLetras();	};		var getInicializarLetras = function() {		var retorno = [];				for(var i = 0; i < numeroDeLinhas; i++) {			retorno[i] = [];					for(var j = 0; j < numeroDeColunas; j++) {				retorno[i][j] = letraVazia;			}		}				return retorno;	};
+	
+	var init = function() {
+		letras = getInicializarLetras();
+	};
+	
+	var getInicializarLetras = function() {
+		var retorno = [];
+		
+		for(var i = 0; i < numeroDeLinhas; i++) {
+			retorno[i] = [];
+		
+			for(var j = 0; j < numeroDeColunas; j++) {
+				retorno[i][j] = letraVazia;
+			}
+		}
+		
+		return retorno;
+	};
 	
 	var getCopiaLetras = function() {
 		var retorno = [];
@@ -27,7 +45,42 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 			retorno.push(palavras[i]);
 		
 		return retorno;
-	};		var getCopiaLetrasParaPreenchimento = function() {		var retorno = [];				for(var i = 0; i < letrasParaPreenchimento.length; i++)			retorno.push(letrasParaPreenchimento[i]);				return retorno;	};
+	};
+	
+	var getCopiaLetrasParaPreenchimento = function() {
+		var retorno = [];
+		
+		for(var i = 0; i < letrasParaPreenchimento.length; i++)
+			retorno.push(letrasParaPreenchimento[i]);
+		
+		return retorno;
+	};
+    
+    var adicionarPalavraNovaTentativa = function(palavra, direcaoExcluida, preenchimento) {
+		palavra.direcoesExcluidas = palavra.direcoesExcluidas === undefined ? [] : palavra.direcoesExcluidas;
+					
+		if(palavra.direcoesExcluidas.indexOf(direcaoExcluida) === -1)
+			palavra.direcoesExcluidas.push(direcaoExcluida);
+		
+
+		return this.adicionarPalavra(
+				palavra,
+				palavra.direcoesExcluidas.indexOf(horizontal) === -1 ? 2 : -1,
+				palavra.direcoesExcluidas.indexOf(vertical) === -1 ? 2 : -1,
+				palavra.direcoesExcluidas.indexOf(diagonalNoroesteSudeste) === -1 ? 2 : -1,
+				palavra.direcoesExcluidas.indexOf(diagonalNordesteSudoeste) === -1 ? 2 : -1,
+				preenchimento
+			);
+	};
+	
+	var palavraJaExiste = function(palavra) {
+		for(var i = 0; i < palavras.length; i++) {
+			if(palavras[i].palavra.trim().toUpperCase() === palavra.palavra.trim().toUpperCase())
+				return true;
+		}
+		
+		return false;
+	};
 	
 	this.getShow = function getShow(getLetraCallback, preencherEspacoEmBranco, caracteresEsquerda, caracteresDireita, mostrarLinhas) {
 		var output = "";
@@ -94,7 +147,15 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	};
 	
 	var formarLetrasParaPreenchimento = function(preenchimento) {
-		var preenchimentoInterno = 			preenchimento === undefined 			? {}			: 				(					preenchimento === "manterPreenchimento" 					? { previamenteDefinido: getCopiaLetrasParaPreenchimento() } 					: preenchimento				);
+		var preenchimentoInterno = 
+			preenchimento === undefined 
+			? {}
+			: 
+				(
+					preenchimento === "manterPreenchimento" 
+					? { previamenteDefinido: getCopiaLetrasParaPreenchimento() } 
+					: preenchimento
+				);
 		
 		var letrasPossiveis = getLetrasPossiveis(preenchimentoInterno);
 		
@@ -133,11 +194,14 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 				for(var j = 0; j < palavras[i].palavra.length; j++) {
 					letrasParaAdicionar += palavras[i].palavra[j];
 				}
-			}						
+			}
+			
+			
 			return letrasParaAdicionar + (preenchimento.letrasAceitas === undefined ? "" : preenchimento.letrasAceitas);
 		}
 		else if(preenchimento !== undefined && preenchimento.letrasAceitas !== undefined && preenchimento.letrasAceitas.trim() !== "") {
-			return preenchimento.letrasAceitas;		}
+			return preenchimento.letrasAceitas;
+		}
 		
 	
 		return "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -197,31 +261,6 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		}
 		
 		return true;
-	};
-	
-	var adicionarPalavraNovaTentativa = function(palavra, direcaoExcluida, preenchimento) {
-		palavra.direcoesExcluidas = palavra.direcoesExcluidas === undefined ? [] : palavra.direcoesExcluidas;
-					
-		if(palavra.direcoesExcluidas.indexOf(direcaoExcluida) === -1)
-			palavra.direcoesExcluidas.push(direcaoExcluida);
-		
-
-		return adicionarPalavra(
-				palavra,
-				palavra.direcoesExcluidas.indexOf(horizontal) === -1 ? 2 : -1,
-				palavra.direcoesExcluidas.indexOf(vertical) === -1 ? 2 : -1,
-				palavra.direcoesExcluidas.indexOf(diagonalNoroesteSudeste) === -1 ? 2 : -1,
-				palavra.direcoesExcluidas.indexOf(diagonalNordesteSudoeste) === -1 ? 2 : -1,				preenchimento
-			);
-	};
-	
-	var palavraJaExiste = function(palavra) {
-		for(var i = 0; i < palavras.length; i++) {
-			if(palavras[i].palavra.trim().toUpperCase() === palavra.palavra.trim().toUpperCase())
-				return true;
-		}
-		
-		return false;
 	};
 	
 	this.adicionarPalavraVertical = function(palavra, deveContinuarTentandoCasoCruzeErradoOutraPalavra, preenchimento) {
@@ -567,11 +606,34 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	};
 	
 	this.adicionarPalavras = function(config) {
-		var configInterno = config !== undefined ? config : {				palavrasParaAdicionar: [], 				chancesParaHorizontal: 2, 				chancesParaVertical: 2, 				chancesParaNoroesteSudeste: 2, 				chancesParaNordesteSudoeste: 2, 				preenchimento: {					mesmaLetraDasPalavras: false,					letrasAceitas: "",					previamenteDefinido: []				}			};				if(configInterno.palavrasParaAdicionar !== undefined) {			for(var i = 0; i < configInterno.palavrasParaAdicionar.length; i++)
-				this.adicionarPalavra({ palavra: configInterno.palavrasParaAdicionar[i] }, configInterno.chancesParaHorizontal, configInterno.chancesParaVertical, configInterno.chancesParaNoroesteSudeste, configInterno.chancesParaNordesteSudoeste, config.preenchimento);		}
+		var configInterno = config !== undefined ? config : {
+				palavrasParaAdicionar: [], 
+				chancesParaHorizontal: 2, 
+				chancesParaVertical: 2, 
+				chancesParaNoroesteSudeste: 2, 
+				chancesParaNordesteSudoeste: 2, 
+				preenchimento: {
+					mesmaLetraDasPalavras: false,
+					letrasAceitas: "",
+					previamenteDefinido: []
+				}
+			};
+		
+		if(configInterno.palavrasParaAdicionar !== undefined) {
+			for(var i = 0; i < configInterno.palavrasParaAdicionar.length; i++)
+				this.adicionarPalavra(
+                        typeof configInterno.palavrasParaAdicionar[i] === "object" ? configInterno.palavrasParaAdicionar[i] : { palavra: configInterno.palavrasParaAdicionar[i] }, 
+                        configInterno.chancesParaHorizontal, 
+                        configInterno.chancesParaVertical, 
+                        configInterno.chancesParaNoroesteSudeste, 
+                        configInterno.chancesParaNordesteSudoeste, 
+                        config.preenchimento
+                    );
+		}
 		
 		return this;
-	};	
+	};
+	
 	this.removerPalavra = function(palavra, preenchimento) {
 		if(palavra !== undefined && palavra.palavra !== undefined) {
 			var palavrasTemp = getCopiaPalavras();
@@ -602,10 +664,12 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 		return palavras;
 	};
 	
-	this.getPalavra = function(palavra) {		var palavraInterno = (typeof palavra === "object" ? palavra.palavra : palavra);		
-		if(palavra !== undefined && palavra.palavra !== undefined) {
+	this.getPalavra = function(palavra) {
+		if(palavra !== undefined) {
+            var palavraInterno = (typeof palavra === "object" ? (palavra.palavra !== undefined ? palavra.palavra : "") : palavra);    
+            
 			for(var i = 0; i < palavras.length; i++) {
-				if(palavra.palavra.trim().toUpperCase() === palavras[i].palavra.trim().toUpperCase())
+				if(palavraInterno.trim().toUpperCase() === palavras[i].palavra.trim().toUpperCase())
 					return palavras[i];
 			}
 		}
@@ -615,7 +679,10 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	
 	this.getLetrasParaPreenchimento = function() {
 		return letrasParaPreenchimento;
-	};			init();
+	};
+	
+	
+	init();
 };
 
 

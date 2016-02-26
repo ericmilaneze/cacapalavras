@@ -1,7 +1,5 @@
 var cacaPalavras = require("./lib/cacaPalavras").cacaPalavras;
 
-
-
 function mostrar() {
 	console.log(jogoAtual.getShowPalavras());
 	

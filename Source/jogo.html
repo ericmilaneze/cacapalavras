@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Caça-Palavras</title>
+	<title>Caça Palavras</title>
 	
 	<meta charset="UTF-8">
 	
@@ -10,8 +10,8 @@
 	<script src="./lib/cacaPalavras.js"></script>
 </head>
 <body>
-	<section id="config">
-		<form>
+	<article id="config">
+		<form onsubmit="return false;">
 			<div class="linha">
 				<label for="numeroDeLinhas">Linhas:</label><input type="number" id="numeroDeLinhas" value="24" />
 			</div>
@@ -23,16 +23,30 @@
 				<input type="button" value="Adicionar" id="adicionarPalavra" />
 			</div>
 			<div class="linha">
-				<select size="5" id="palavrasEscolhidas" multiple>
-					
-				</select>
+				<select size="5" id="palavrasEscolhidas" multiple></select>
 			</div>
 			<div class="linha">
-				
+				<input type="button" value="Gerar jogo" id="gerarJogo" />
 			</div>
+            <div class="linha">
+                <label for="resultado">Resultado:</label>
+                <textarea id="resultado" cols="30" rows="10" readonly></textarea>
+            </div>
 		</form>
-	</section>
-	
+	</article>
+    <section id="esbocoJogo">
+        <div class="linha">
+            <label for="jogo">Jogo:</label>
+            <textarea id="jogo" readonly></textarea>
+        </div> 
+    </section>
+	<section id="esbocoResposta">
+        <div class="linha">
+            <label for="resposta">Reposta:</label>
+            <textarea id="resposta" readonly></textarea>
+        </div> 
+    </section>
+    
 	<script src="./jogo.js"></script>
 </body>
 </html>

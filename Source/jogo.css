@@ -3,15 +3,28 @@ body {
 	font-size: 0.8em;
 }
 
-form > div.linha {
-	margin-top: 10px;
+div.linha {
+	margin-top: 8px;
 }
 
-form > div.linha > label {
+div.linha > label {
 	display: block;
-	width: 150px;
 }
 
 #palavrasEscolhidas {
 	width: 200px;
+}
+
+#config, #esbocoJogo {
+    float: left;
+    margin-right: 50px;
+}
+
+#esbocoResposta {
+    float: left;
+}
+
+#jogo, #resposta {
+    width: 480px; 
+    height: 380px;
 }
