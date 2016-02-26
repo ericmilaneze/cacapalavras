@@ -13,10 +13,10 @@
 	<article id="config">
 		<form onsubmit="return false;">
 			<div class="linha">
-				<label for="numeroDeLinhas">Linhas:</label><input type="number" id="numeroDeLinhas" value="24" />
+				<label for="numeroDeLinhas">Linhas:</label><input type="number" id="numeroDeLinhas" value="24" min="1" max="50" maxlength="2" />
 			</div>
 			<div class="linha">
-				<label for="numeroDeColunas">Colunas:</label><input type="number" id="numeroDeColunas" value="21" />
+				<label for="numeroDeColunas">Colunas:</label><input type="number" id="numeroDeColunas" value="21" min="1" max="50" maxlength="2" />
 			</div>
 			<div class="linha">
 				<label for="palavraParaAdicionar">Palavra para adicionar:</label><input type="text" id="palavraParaAdicionar" value="" />
@@ -36,14 +36,7 @@
 	</article>
     <section id="esbocoJogo">
         <div class="linha">
-            <label for="jogo">Jogo:</label>
-            <textarea id="jogo" readonly></textarea>
-        </div> 
-    </section>
-	<section id="esbocoResposta">
-        <div class="linha">
-            <label for="resposta">Reposta:</label>
-            <textarea id="resposta" readonly></textarea>
+            <canvas id="jogo" width="470" height="520"></canvas>
         </div> 
     </section>
     

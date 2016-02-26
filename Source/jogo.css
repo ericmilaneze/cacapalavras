@@ -20,11 +20,17 @@ div.linha > label {
     margin-right: 50px;
 }
 
-#esbocoResposta {
-    float: left;
+#esbocoJogo {
+    display: none;
 }
 
-#jogo, #resposta {
-    width: 480px; 
-    height: 380px;
+#config {
+    border: 1px solid #000;
+    padding: 10px;
+    background-color: beige;
+}
+
+#jogo {
+    border: 1px solid #000;
+    display: block;
 }

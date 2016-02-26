@@ -657,7 +657,7 @@ var cacaPalavras = function(numeroDeLinhas, numeroDeColunas, podeCruzar, chances
 	};
 	
 	this.getLetraComPreenchimento = function(linha, coluna) {
-		return letrasTudoPreenchido[linha][coluna];
+		return letrasTudoPreenchido[linha][coluna].toUpperCase();
 	};
 	
 	this.getPalavras = function() {
