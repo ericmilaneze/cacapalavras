@@ -11,6 +11,10 @@ div.linha > label {
 	display: block;
 }
 
+div.linha > label.checkbox {
+    display: inline;
+}
+
 #palavrasEscolhidas {
 	width: 200px;
 }
