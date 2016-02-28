@@ -135,7 +135,8 @@ var gerarJogo = function() {
     configuracoesJogo.numeroDeLinhas = textBoxNumeroDeLinhas.value;
     configuracoesJogo.numeroDeColunas = textBoxNumeroDeColunas.value;
     configuracoesJogo.podeCruzar = true;
-    configuracoesJogo.chancesParaReverso = 6;
+    configuracoesJogo.chancesParaReverso = 1;
+    configuracoesJogo.chancesParaNaoReverso = 10;
     configuracoesJogo.resposta = cbMostrarResultado.checked;
     configuracoesJogo.pxEspacamentoColunas = 20;
     configuracoesJogo.pxEspacamentoLinhas = 20;
@@ -143,15 +144,15 @@ var gerarJogo = function() {
     configuracoesJogo.pxMargemTop = 35;
     configuracoesJogo.font = "13px Arial";
     configuracoesJogo.config = configuracoesJogo.config !== undefined ? configuracoesJogo.config : {};
-    configuracoesJogo.config.chancesParaHorizontal = 2;
-    configuracoesJogo.config.chancesParaVertical = 2;
-    configuracoesJogo.config.chancesParaNoroesteSudeste = 2; 
-    configuracoesJogo.config.chancesParaNordesteSudoeste = 2;
+    configuracoesJogo.config.chancesParaHorizontal = 3;
+    configuracoesJogo.config.chancesParaVertical = 3;
+    configuracoesJogo.config.chancesParaNoroesteSudeste = 1; 
+    configuracoesJogo.config.chancesParaNordesteSudoeste = 1;
     configuracoesJogo.config.preenchimento = configuracoesJogo.config.preenchimento !== undefined ? configuracoesJogo.config.preenchimento : {};
     configuracoesJogo.config.preenchimento.mesmaLetraDasPalavras = false;
     configuracoesJogo.config.preenchimento.letrasAceitas = "";
     
-    var jogoAtual = new cacaPalavras(configuracoesJogo.numeroDeLinhas, configuracoesJogo.numeroDeColunas, configuracoesJogo.podeCruzar, configuracoesJogo.chancesParaReverso);
+    var jogoAtual = new cacaPalavras(configuracoesJogo.numeroDeLinhas, configuracoesJogo.numeroDeColunas, configuracoesJogo.podeCruzar, configuracoesJogo.chancesParaReverso, configuracoesJogo.chancesParaNaoReverso);
     
     // adicionar palavras que estão na memória, pois já foram adicionadas antes
     jogoAtual.adicionarPalavras(configuracoesJogo.config);
@@ -187,7 +188,7 @@ var gerarJogo = function() {
 
 var desenharJogo = function(idCanvasJogo, configuracoesJogo) {
     if(configuracoesJogo !== undefined && configuracoesJogo.config !== undefined) {
-        var jogoAtual = new cacaPalavras(configuracoesJogo.numeroDeLinhas, configuracoesJogo.numeroDeColunas, configuracoesJogo.podeCruzar, configuracoesJogo.chancesParaReverso);
+        var jogoAtual = new cacaPalavras(configuracoesJogo.numeroDeLinhas, configuracoesJogo.numeroDeColunas, configuracoesJogo.podeCruzar, configuracoesJogo.chancesParaReverso, configuracoesJogo.chancesParaNaoReverso);
         
         jogoAtual.adicionarPalavras(configuracoesJogo.config);   
         
