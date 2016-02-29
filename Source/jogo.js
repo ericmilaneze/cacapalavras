@@ -1,3 +1,19 @@
+var defaultFontSize = 16;
+var defaultFontFace = "Arial";
+var defaultIncreaseDecreaseFontSize = 1;
+var defaultPxEspacamentoColunas = 20;
+var defaultPxEspacamentoLinhas = 20;
+var defaultPxMargemEsquerda = 35;
+var defaultPxMargemTop = 35;
+var defaultIncreaseDecreaseMargemEsquerda = 2;
+var defaultIncreaseDecreaseMargemTop = 2;
+var defaultIncreaseDecreaseEspacamentoColunas = 2;
+var defaultIncreaseDecreaseEspacamentoLinhas = 2;
+var defaultCanvasWidth = 470;
+var defaultCanvasHeight = 480;
+var defaultIncreaseDecreaseCanvasWidth = 10;
+var defaultIncreaseDecreaseCanvasHeight = 10;
+
 var textBoxPalavraParaAdicionar = document.getElementById("palavraParaAdicionar");
 var btnAdicionarPalavra = document.getElementById("adicionarPalavra");
 var selectPalavrasEscolhidas = document.getElementById("palavrasEscolhidas");
@@ -7,6 +23,34 @@ var textBoxNumeroDeColunas = document.getElementById("numeroDeColunas");
 var textBoxResultado = document.getElementById("resultado");
 var sectionEsbocoJogo = document.getElementById("esbocoJogo");
 var cbMostrarResultado = document.getElementById("mostrarResultado");
+var btnRefazerPreenchimento = document.getElementById("refazerPreenchimento");
+var txtLetrasAceitas = document.getElementById("letrasAceitas");
+var rbPreenchimentoLetrasAceitas = document.getElementById("preenchimentoLetrasAceitas");
+var rbPreenchimentoMesmasLetras = document.getElementById("preenchimentoMesmasLetras");
+var cbPodeCruzar = document.getElementById("podeCruzar");
+var txtChancesParaReverso = document.getElementById("chancesParaReverso");
+var txtChancesParaHorizontal = document.getElementById("chancesParaHorizontal");
+var txtChancesParaVertical = document.getElementById("chancesParaVertical");
+var txtChancesParaDiagonalNordesteSudoeste = document.getElementById("chancesParaDiagonalNordesteSudoeste");
+var txtChancesParaDiagonalNoroesteSudeste = document.getElementById("chancesParaDiagonalNoroesteSudeste");
+var btnAumentarFonte = document.getElementById("aumentarFonte");
+var btnDiminuirFonte = document.getElementById("diminuirFonte");
+var selectFonte = document.getElementById("fonte");
+var btnAumentarMargemEsquerda = document.getElementById("aumentarMargemEsquerda");
+var btnDiminuirMargemEsquerda = document.getElementById("diminuirMargemEsquerda");
+var btnAumentarMargemSuperior = document.getElementById("aumentarMargemSuperior");
+var btnDiminuirMargemSuperior = document.getElementById("diminuirMargemSuperior");
+var btnDiminuirEspacamentoHorizontal = document.getElementById("diminuirEspacamentoHorizontal");
+var btnDiminuirEspacamentoVertical = document.getElementById("diminuirEspacamentoVertical");
+var btnAumentarEspacamentoHorizontal = document.getElementById("aumentarEspacamentoHorizontal");
+var btnAumentarEspacamentoVertical = document.getElementById("aumentarEspacamentoVertical");
+var btnAumentarLarguraTela = document.getElementById("aumentarLarguraTela");
+var btnDiminuirLarguraTela = document.getElementById("diminuirLarguraTela");
+var btnAumentarAlturaTela = document.getElementById("aumentarAlturaTela");
+var btnDiminuirAlturaTela = document.getElementById("diminuirAlturaTela");
+var cbMostrarBordas = document.getElementById("mostrarBordas");
+var cbPalavrasNaDireita = document.getElementById("palavrasNaDireita");
+var cbPalavrasNaEsquerda = document.getElementById("palavrasNaEsquerda");
 
 textBoxPalavraParaAdicionar.focus();
 
@@ -31,7 +75,185 @@ var getPalavrasParaAdicionar = function() {
     return palavrasParaAdicionar;
 };
 
+cbPalavrasNaDireita.addEventListener("click", function() {
+    if(this.checked)
+        cbPalavrasNaEsquerda.checked = false;
+
+    gerarJogo();
+});
+
+cbPalavrasNaEsquerda.addEventListener("click", function() {
+    if(this.checked)
+        cbPalavrasNaDireita.checked = false;
+
+    gerarJogo();
+});
+
+btnAumentarLarguraTela.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    configuracoesJogo.canvasWidth = (configuracoesJogo.canvasWidth !== undefined ? configuracoesJogo.canvasWidth + defaultIncreaseDecreaseCanvasWidth : defaultCanvasWidth + defaultIncreaseDecreaseCanvasWidth);
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+btnAumentarAlturaTela.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    configuracoesJogo.canvasHeight = (configuracoesJogo.canvasHeight !== undefined ? configuracoesJogo.canvasHeight + defaultIncreaseDecreaseCanvasHeight : defaultCanvasHeight + defaultIncreaseDecreaseCanvasHeight);
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+btnDiminuirLarguraTela.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    var novoWidth = (configuracoesJogo.canvasWidth !== undefined ? configuracoesJogo.canvasWidth - defaultIncreaseDecreaseCanvasWidth : defaultCanvasWidth - defaultIncreaseDecreaseCanvasWidth);
+
+    if(novoWidth > 0)
+        configuracoesJogo.canvasWidth = novoWidth; 
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+btnDiminuirAlturaTela.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    var novoHeight = (configuracoesJogo.canvasHeight !== undefined ? configuracoesJogo.canvasHeight - defaultIncreaseDecreaseCanvasHeight : defaultCanvasHeight - defaultIncreaseDecreaseCanvasHeight);
+
+    if(novoHeight > 0)
+        configuracoesJogo.canvasHeight = novoHeight; 
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+selectFonte.addEventListener("change", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    configuracoesJogo.fontFace = this.options[this.selectedIndex].innerHTML;
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+btnDiminuirEspacamentoHorizontal.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    configuracoesJogo.pxEspacamentoColunas = (configuracoesJogo.pxEspacamentoColunas !== undefined ? configuracoesJogo.pxEspacamentoColunas - defaultIncreaseDecreaseEspacamentoColunas : defaultPxEspacamentoColunas - defaultIncreaseDecreaseEspacamentoColunas);
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+btnAumentarEspacamentoHorizontal.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    configuracoesJogo.pxEspacamentoColunas = (configuracoesJogo.pxEspacamentoColunas !== undefined ? configuracoesJogo.pxEspacamentoColunas + defaultIncreaseDecreaseEspacamentoColunas : defaultPxEspacamentoColunas + defaultIncreaseDecreaseEspacamentoColunas);
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+btnDiminuirEspacamentoVertical.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    configuracoesJogo.pxEspacamentoLinhas = (configuracoesJogo.pxEspacamentoLinhas !== undefined ? configuracoesJogo.pxEspacamentoLinhas - defaultIncreaseDecreaseEspacamentoLinhas : defaultPxEspacamentoLinhas - defaultIncreaseDecreaseEspacamentoLinhas);
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+btnAumentarEspacamentoVertical.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    configuracoesJogo.pxEspacamentoLinhas = (configuracoesJogo.pxEspacamentoLinhas !== undefined ? configuracoesJogo.pxEspacamentoLinhas + defaultIncreaseDecreaseEspacamentoLinhas : defaultPxEspacamentoLinhas + defaultIncreaseDecreaseEspacamentoLinhas);
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+btnAumentarMargemEsquerda.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    configuracoesJogo.pxMargemEsquerda = (configuracoesJogo.pxMargemEsquerda !== undefined ? configuracoesJogo.pxMargemEsquerda + defaultIncreaseDecreaseMargemEsquerda : defaultPxMargemEsquerda + defaultIncreaseDecreaseMargemEsquerda);
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+btnDiminuirMargemEsquerda.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    configuracoesJogo.pxMargemEsquerda = (configuracoesJogo.pxMargemEsquerda !== undefined ? configuracoesJogo.pxMargemEsquerda - defaultIncreaseDecreaseMargemEsquerda : defaultPxMargemEsquerda - defaultIncreaseDecreaseMargemEsquerda);
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+btnAumentarMargemSuperior.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    configuracoesJogo.pxMargemTop = (configuracoesJogo.pxMargemTop !== undefined ? configuracoesJogo.pxMargemTop + defaultIncreaseDecreaseMargemTop : defaultPxMargemTop + defaultIncreaseDecreaseMargemTop);
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+btnDiminuirMargemSuperior.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    configuracoesJogo.pxMargemTop = (configuracoesJogo.pxMargemTop !== undefined ? configuracoesJogo.pxMargemTop - defaultIncreaseDecreaseMargemTop : defaultPxMargemTop - defaultIncreaseDecreaseMargemTop);
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+btnAumentarFonte.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    configuracoesJogo.fontSize = (configuracoesJogo.fontSize !== undefined ? configuracoesJogo.fontSize + defaultIncreaseDecreaseFontSize : defaultFontSize + defaultIncreaseDecreaseFontSize);
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
+btnDiminuirFonte.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    configuracoesJogo.fontSize = (configuracoesJogo.fontSize !== undefined ? configuracoesJogo.fontSize - defaultIncreaseDecreaseFontSize : defaultFontSize - defaultIncreaseDecreaseFontSize);
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);
+    
+    gerarJogo();
+});
+
 cbMostrarResultado.addEventListener("click", function() {
+    gerarJogo(); 
+});
+
+cbMostrarBordas.addEventListener("click", function() {
+    gerarJogo();
+});
+
+cbPodeCruzar.addEventListener("click", function() {
     gerarJogo(); 
 });
 
@@ -66,16 +288,18 @@ btnAdicionarPalavra.addEventListener("click", function() {
         for (var i = 0; i < palavrasParaAdicionar.length; i++) {
             var palavra = palavrasParaAdicionar[i].trim();
             
-            if(!isPalavraRepetida(palavra)) {
-                var newOption = document.createElement("option");
-                newOption.text = palavra;
+            if(palavra != "") {
+                if(!isPalavraRepetida(palavra)) {
+                    var newOption = document.createElement("option");
+                    newOption.text = palavra;
 
-                selectPalavrasEscolhidas.add(newOption);
-                
-                textBoxPalavraParaAdicionar.value = "";
-            }
-            else {
-                palavrasRepetidas.push(palavra);
+                    selectPalavrasEscolhidas.add(newOption);
+                    
+                    textBoxPalavraParaAdicionar.value = "";
+                }
+                else {
+                    palavrasRepetidas.push(palavra);
+                }
             }
         }
         
@@ -107,7 +331,7 @@ var getConfiguracoesJogo = function() {
 };
 
 textBoxNumeroDeLinhas.addEventListener("keyup", function() {
-    if(parseInt(this.value) === 0 || this.value.trim() === "")
+    if(isNaN(this.value) || parseInt(this.value) <= 0 || this.value.trim() === "")
         this.value = 1;
     
     gerarJogo();
@@ -118,7 +342,7 @@ textBoxNumeroDeLinhas.addEventListener("click", function() {
 });
 
 textBoxNumeroDeColunas.addEventListener("keyup", function() {
-    if(parseInt(this.value) === 0 || this.value.trim() === "")
+    if(isNaN(this.value) || parseInt(this.value) <= 0 || this.value.trim() === "")
         this.value = 1;
     
     gerarJogo();
@@ -134,23 +358,29 @@ var gerarJogo = function() {
     var configuracoesJogo = getConfiguracoesJogo();
     configuracoesJogo.numeroDeLinhas = textBoxNumeroDeLinhas.value;
     configuracoesJogo.numeroDeColunas = textBoxNumeroDeColunas.value;
-    configuracoesJogo.podeCruzar = true;
-    configuracoesJogo.chancesParaReverso = 1;
+    configuracoesJogo.podeCruzar = cbPodeCruzar.checked;
+    configuracoesJogo.possuiBordas = cbMostrarBordas.checked;
+    configuracoesJogo.posicaoPalavras = (cbPalavrasNaDireita.checked ? "direita" : (cbPalavrasNaEsquerda.checked ? "esquerda" : ""));
+    configuracoesJogo.chancesParaReverso = txtChancesParaReverso.value;
     configuracoesJogo.chancesParaNaoReverso = 10;
     configuracoesJogo.resposta = cbMostrarResultado.checked;
-    configuracoesJogo.pxEspacamentoColunas = 20;
-    configuracoesJogo.pxEspacamentoLinhas = 20;
-    configuracoesJogo.pxMargemEsquerda = 35;
-    configuracoesJogo.pxMargemTop = 35;
-    configuracoesJogo.font = "13px Arial";
+    configuracoesJogo.canvasWidth = (configuracoesJogo.canvasWidth !== undefined ? configuracoesJogo.canvasWidth : defaultCanvasWidth);
+    configuracoesJogo.canvasHeight = (configuracoesJogo.canvasHeight !== undefined ? configuracoesJogo.canvasHeight : defaultCanvasHeight);
+    configuracoesJogo.pxEspacamentoColunas = (configuracoesJogo.pxEspacamentoColunas !== undefined ? configuracoesJogo.pxEspacamentoColunas : defaultPxEspacamentoColunas);
+    configuracoesJogo.pxEspacamentoLinhas = (configuracoesJogo.pxEspacamentoLinhas !== undefined ? configuracoesJogo.pxEspacamentoLinhas : defaultPxEspacamentoLinhas);
+    configuracoesJogo.pxMargemEsquerda = (configuracoesJogo.pxMargemEsquerda !== undefined ? configuracoesJogo.pxMargemEsquerda : defaultPxMargemEsquerda);
+    configuracoesJogo.pxMargemTop = (configuracoesJogo.pxMargemTop !== undefined ? configuracoesJogo.pxMargemTop : defaultPxMargemTop);
+    configuracoesJogo.fontSize = (configuracoesJogo.fontSize !== undefined ? configuracoesJogo.fontSize : defaultFontSize);
+    configuracoesJogo.fontFace = (configuracoesJogo.fontFace !== undefined ? configuracoesJogo.fontFace : defaultFontFace);
+    configuracoesJogo.font = configuracoesJogo.fontSize + "px " + configuracoesJogo.fontFace;
     configuracoesJogo.config = configuracoesJogo.config !== undefined ? configuracoesJogo.config : {};
-    configuracoesJogo.config.chancesParaHorizontal = 3;
-    configuracoesJogo.config.chancesParaVertical = 3;
-    configuracoesJogo.config.chancesParaNoroesteSudeste = 1; 
-    configuracoesJogo.config.chancesParaNordesteSudoeste = 1;
+    configuracoesJogo.config.chancesParaHorizontal = txtChancesParaHorizontal.value;
+    configuracoesJogo.config.chancesParaVertical = txtChancesParaVertical.value;
+    configuracoesJogo.config.chancesParaNoroesteSudeste = txtChancesParaDiagonalNoroesteSudeste.value; 
+    configuracoesJogo.config.chancesParaNordesteSudoeste = txtChancesParaDiagonalNordesteSudoeste.value;
     configuracoesJogo.config.preenchimento = configuracoesJogo.config.preenchimento !== undefined ? configuracoesJogo.config.preenchimento : {};
-    configuracoesJogo.config.preenchimento.mesmaLetraDasPalavras = false;
-    configuracoesJogo.config.preenchimento.letrasAceitas = "";
+    configuracoesJogo.config.preenchimento.mesmaLetraDasPalavras = rbPreenchimentoMesmasLetras.checked;
+    configuracoesJogo.config.preenchimento.letrasAceitas = (rbPreenchimentoLetrasAceitas.checked ? txtLetrasAceitas.value : "");
     
     var jogoAtual = new cacaPalavras(configuracoesJogo.numeroDeLinhas, configuracoesJogo.numeroDeColunas, configuracoesJogo.podeCruzar, configuracoesJogo.chancesParaReverso, configuracoesJogo.chancesParaNaoReverso);
     
@@ -181,40 +411,19 @@ var gerarJogo = function() {
     
     textBoxResultado.value = JSON.stringify(configuracoesJogo);
     
-    desenharJogo("jogo", configuracoesJogo);
+    desenharJogo(document.getElementById("esbocoJogo"), configuracoesJogo);
     
     sectionEsbocoJogo.style.display = "block";
 };
 
-var desenharJogo = function(idCanvasJogo, configuracoesJogo) {
-    if(configuracoesJogo !== undefined && configuracoesJogo.config !== undefined) {
-        var jogoAtual = new cacaPalavras(configuracoesJogo.numeroDeLinhas, configuracoesJogo.numeroDeColunas, configuracoesJogo.podeCruzar, configuracoesJogo.chancesParaReverso, configuracoesJogo.chancesParaNaoReverso);
+btnRefazerPreenchimento.addEventListener("click", function() {
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    if(configuracoesJogo.config !== undefined && configuracoesJogo.config.preenchimento !== undefined) {
+        configuracoesJogo.config.preenchimento.previamenteDefinido = [];
         
-        jogoAtual.adicionarPalavras(configuracoesJogo.config);   
+        textBoxResultado.value = JSON.stringify(configuracoesJogo);
         
-        var canvasResposta = document.getElementById(idCanvasJogo);
-        var ctxCanvasResposta = canvasResposta.getContext("2d");
-        
-        ctxCanvasResposta.clearRect(0, 0, canvasResposta.width, canvasResposta.height);
-        
-        ctxCanvasResposta.font = configuracoesJogo.font;
-        
-        var pxColunaInicial = configuracoesJogo.pxEspacamentoColunas;
-        var pxLinhaInicial = configuracoesJogo.pxMargemTop;
-        
-        for (var linha = 0; linha < configuracoesJogo.numeroDeLinhas; linha++) {
-            pxColunaInicial = configuracoesJogo.pxMargemEsquerda;
-            
-            for (var coluna = 0; coluna < configuracoesJogo.numeroDeColunas; coluna++) {
-                var letra = configuracoesJogo.resposta ? jogoAtual.getLetra(linha, coluna) : jogoAtual.getLetraComPreenchimento(linha, coluna);
-            
-                ctxCanvasResposta.textAlign = "center";
-                ctxCanvasResposta.strokeText(letra, pxColunaInicial, pxLinhaInicial);
-                
-                pxColunaInicial += configuracoesJogo.pxEspacamentoColunas;
-            }
-            
-            pxLinhaInicial += configuracoesJogo.pxEspacamentoLinhas;
-        }
+        gerarJogo();
     }
-};
+});

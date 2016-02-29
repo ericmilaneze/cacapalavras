@@ -12,13 +12,8 @@
 <body>
 	<article id="config">
 		<form onsubmit="return false;">
-			<div class="linha">
-				<label for="numeroDeLinhas">Linhas:</label><input type="number" id="numeroDeLinhas" value="24" min="1" max="50" maxlength="2" />
-			</div>
-			<div class="linha">
-				<label for="numeroDeColunas">Colunas:</label><input type="number" id="numeroDeColunas" value="21" min="1" max="50" maxlength="2" />
-			</div>
-			<div class="linha">
+            <h2>Configurações</h2>
+            <div class="linha">
 				<label for="palavraParaAdicionar">Palavra para adicionar:</label><input type="text" id="palavraParaAdicionar" value="" />
 				<input type="button" value="Adicionar" id="adicionarPalavra" />
 			</div>
@@ -26,19 +21,101 @@
 				<select size="5" id="palavrasEscolhidas" multiple></select>
 			</div>
 			<div class="linha">
-				<input type="checkbox" id="mostrarResultado" /><label for="mostrarResultado" class="checkbox">Resposta</label>
+                <div class="coluna coluna1">
+				    <label for="numeroDeLinhas">Linhas:</label><input type="number" id="numeroDeLinhas" value="22" min="1" max="50" maxlength="2" />
+                </div>
+                <div class="coluna">
+                    <label for="numeroDeColunas">Colunas:</label><input type="number" id="numeroDeColunas" value="21" min="1" max="50" maxlength="2" />
+                </div>
+                <div class="clear"></div>
 			</div>
             <div class="linha">
-                <textarea id="resultado" cols="30" rows="10" readonly></textarea>
+				<label for="chancesParaReverso">Chances para reverso:</label><input type="number" id="chancesParaReverso" value="5" min="0" max="50" maxlength="2" /> / 10 para não reverso
+			</div>
+            <div class="caixa">
+                <h3>Posição (chances)</h3>
+                <div class="linha">
+                    <div class="coluna coluna1">
+				        <label for="chancesParaHorizontal">Horizontal ( - ):</label><input type="number" id="chancesParaHorizontal" value="3" min="0" max="50" maxlength="2" />
+                    </div>
+                    <div class="coluna">
+				        <label for="chancesParaVertical">Vertical ( | ):</label><input type="number" id="chancesParaVertical" value="3" min="0" max="50" maxlength="2" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="linha">
+                    <div class="coluna coluna1">
+				        <label for="chancesParaDiagonalNordesteSudoeste">Diagonal ( / ):</label><input type="number" id="chancesParaDiagonalNordesteSudoeste" value="1" min="0" max="50" maxlength="2" />
+                    </div>
+                    <div class="coluna ultima">
+				        <label for="chancesParaDiagonalNoroesteSudeste">Diagonal ( \ ):</label><input type="number" id="chancesParaDiagonalNoroesteSudeste" value="1" min="0" max="50" maxlength="2" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="linha">
+				<input type="checkbox" id="podeCruzar" checked /><label for="podeCruzar" class="checkbox">Pode cruzar</label>
+			</div>
+            <div class="caixa">
+                <h3>Preenchimento</h3>
+                <div class="linha">
+                    <input type="radio" name="tipoPreenchimento" id="preenchimentoLetrasAceitas" checked /><label for="preenchimentoLetrasAceitas" class="checkbox">Letras Aceitas:</label>
+                </div>
+                <div class="linha">
+                    <input type="text" id="letrasAceitas" value="ABCDEFGHIJKLMNOPQRSTUVWXYZ" />
+                </div>
+                <div class="linha">
+                    <input type="radio" name="tipoPreenchimento" id="preenchimentoMesmasLetras" /><label for="preenchimentoMesmasLetras" class="checkbox">Mesmas letras das palavras</label>
+                </div>
+                <div class="linha">
+                    <input type="button" value="Refazer preenchimento" id="refazerPreenchimento" />
+                </div>
+            </div>
+            <div class="linha">
+                <textarea id="resultado" cols="30" rows="3" readonly></textarea>
             </div>
 		</form>
 	</article>
     <section id="esbocoJogo">
         <div class="linha">
-            <canvas id="jogo" width="470" height="520"></canvas>
-        </div> 
+            <canvas class="jogo" width="470" height="520"></canvas>
+            <div class="palavrasDoJogo">
+                
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="linha opcoesEsboco">
+            <select id="fonte" class="opcaoEsboco">
+                <option value="Arial">Arial</option>
+                <option value="Book Antiqua">Book Antiqua</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Verdana">Verdana</option>
+            </select>
+            <input type="image" src="./imagens/aumentarFonte.jpg" id="aumentarFonte" class="opcaoEsboco">
+            <input type="image" src="./imagens/diminuirFonte.jpg" id="diminuirFonte" class="opcaoEsboco">
+            <input type="image" src="./imagens/aumentarMargemEsquerda.jpg" id="aumentarMargemEsquerda" class="opcaoEsboco">
+            <input type="image" src="./imagens/diminuirMargemEsquerda.jpg" id="diminuirMargemEsquerda" class="opcaoEsboco">
+            <input type="image" src="./imagens/aumentarMargemSuperior.jpg" id="aumentarMargemSuperior" class="opcaoEsboco">
+            <input type="image" src="./imagens/diminuirMargemSuperior.jpg" id="diminuirMargemSuperior" class="opcaoEsboco">
+            <input type="image" src="./imagens/diminuirEspacamentoHorizontal.jpg" id="diminuirEspacamentoHorizontal" class="opcaoEsboco">
+            <input type="image" src="./imagens/aumentarEspacamentoHorizontal.jpg" id="aumentarEspacamentoHorizontal" class="opcaoEsboco">
+            <input type="image" src="./imagens/diminuirEspacamentoVertical.jpg" id="diminuirEspacamentoVertical" class="opcaoEsboco">
+            <input type="image" src="./imagens/aumentarEspacamentoVertical.jpg" id="aumentarEspacamentoVertical" class="opcaoEsboco">
+            <input type="image" src="./imagens/aumentarLarguraTela.jpg" id="aumentarLarguraTela" class="opcaoEsboco">
+            <input type="image" src="./imagens/diminuirLarguraTela.jpg" id="diminuirLarguraTela" class="opcaoEsboco">
+            <input type="image" src="./imagens/aumentarAlturaTela.jpg" id="aumentarAlturaTela" class="opcaoEsboco">
+            <input type="image" src="./imagens/diminuirAlturaTela.jpg" id="diminuirAlturaTela" class="opcaoEsboco">
+        </div>
+        <div class="linha opcoesEsboco">
+            <input type="checkbox" id="mostrarResultado" class="opcaoEsboco" checked /><label for="mostrarResultado" class="checkbox">Resposta</label>
+            <input type="checkbox" id="mostrarBordas" class="opcaoEsboco" checked /><label for="mostrarBordas" class="checkbox">Bordas</label>
+            <input type="checkbox" id="palavrasNaDireita" class="opcaoEsboco" checked /><label for="palavrasNaDireita" class="checkbox">Palavras na direita</label>
+            <input type="checkbox" id="palavrasNaEsquerda" class="opcaoEsboco" /><label for="palavrasNaEsquerda" class="checkbox">Palavras na esquerda</label>
+        </div>
     </section>
     
+    <script src="./desenho.js"></script>
 	<script src="./jogo.js"></script>
 </body>
 </html>
