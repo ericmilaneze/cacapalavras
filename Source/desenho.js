@@ -1,14 +1,24 @@
 var desenharJogo = function(sectionJogo, configuracoesJogo) {
     if(configuracoesJogo !== undefined && configuracoesJogo.config !== undefined) {
         var divPalavrasDoJogo = sectionJogo.querySelector("div.palavrasDoJogo");
-        
-        divPalavrasDoJogo.innerHTML = "";
-        
         var canvasJogo = sectionJogo.querySelector("canvas.jogo");
+        var divTextoAcima = sectionJogo.querySelector("div.textoAcima");
         
         canvasJogo.width = configuracoesJogo.canvasWidth;
         canvasJogo.height = configuracoesJogo.canvasHeight;
-                
+        
+        divPalavrasDoJogo.innerHTML = "";
+        
+        if(configuracoesJogo.textoAcima !== undefined && configuracoesJogo.textoAcima.trim() !== "") {
+            divTextoAcima.style.width = configuracoesJogo.canvasWidth + "px";
+            divTextoAcima.style.display = "block";
+            divTextoAcima.innerHTML = configuracoesJogo.textoAcima;
+        }
+        else {
+            divTextoAcima.style.display = "none";
+            configuracoesJogo.textoAcima = "";
+        }
+        
         var ctxCanvasResposta = canvasJogo.getContext("2d");
         
         ctxCanvasResposta.clearRect(0, 0, canvasJogo.width, canvasJogo.height);

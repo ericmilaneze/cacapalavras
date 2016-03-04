@@ -28,8 +28,9 @@ div.linha > label.checkbox {
 	width: 200px;
 }
 
-#config, #esbocoJogo {
+#config, #esbocoJogo, section.sectionJogo {
     float: left;
+    position: relative;
 }
 
 #esbocoJogo {
@@ -116,4 +117,34 @@ div.palavrasDoJogo {
     margin-right: 10px;
     padding: 10px;
     width: 145px;
+    font-size: 1.1em;
+    line-height: 150%;
+}
+
+#textoParaAdicionarAcima {
+    width: 348px;
+    height: 55px;
+}
+
+div.textoAcima {
+    display: none;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    line-height: 150%;
+}
+
+span.palavra {
+    font-weight: 900;
+    text-decoration: underline;
+}
+
+div.reconfigurar {
+    display: block;
+    margin-right: 10px;
+    right: 10px;
+    position: absolute;
+}
+
+div.reconfigurar.invisivel {
+    display: none;
 }

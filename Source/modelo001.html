@@ -10,43 +10,35 @@
 	<script src="./lib/cacaPalavras.js"></script>
 </head>
 <body>
-    <section id="jogo01">
+    <section class="sectionJogo">
         <div class="linha">
+            <div class="textoAcima"></div>
             <canvas class="jogo"></canvas>
-            <div class="palavrasDoJogo">
-                
-            </div>
+            <div class="palavrasDoJogo"></div>
             <div class="clear"></div>
+            <div class="reconfigurar invisivel">
+                <a href="javascript:void(0)">Reconfigurar</a>
+            </div>
         </div>
+        <input type="text" class="configJogo" /><input type="button" value="Ok" class="botaoOk" />
     </section>
-    <input type="text" id="configJogo01" /><input type="button" value="Ok" id="botao01" onclick="callDesenharJogo('jogo01', 'configJogo01', this.id)" />
-    <section id="jogo02">
+    
+    <div class="clear"></div>
+    
+    <section class="sectionJogo">
         <div class="linha">
+            <div class="textoAcima"></div>
             <canvas class="jogo"></canvas>
-            <div class="palavrasDoJogo">
-                
-            </div>
+            <div class="palavrasDoJogo"></div>
             <div class="clear"></div>
+            <div class="reconfigurar invisivel">
+                <a href="javascript:void(0)">Reconfigurar</a>
+            </div>
         </div>
+        <input type="text" class="configJogo" /><input type="button" value="Ok" class="botaoOk" />
     </section>
-    <input type="text" id="configJogo02" /><input type="button" value="Ok" id="botao02" onclick="callDesenharJogo('jogo02', 'configJogo02', this.id)" />
     
     <script src="./desenho.js"></script>
-    <script>
-        var configuracoesDeJogoPadrao = {"possuiBordas":true,"canvasWidth":250,"canvasHeight":250,"config":{}};
-        
-        desenharJogo(document.getElementById("jogo01"), configuracoesDeJogoPadrao);
-        desenharJogo(document.getElementById("jogo02"), configuracoesDeJogoPadrao);
-        
-        var callDesenharJogo = function(idSectionJogo, idTextboxConfig, idBotaoOk) {
-            var textboxConfig = document.getElementById(idTextboxConfig);
-            
-            desenharJogo(document.getElementById(idSectionJogo), JSON.parse(textboxConfig.value));
-            
-            textboxConfig.style.display = "none";
-            
-            document.getElementById(idBotaoOk).style.display = "none";
-        };
-    </script>
+    <script src="./modelo001.js"></script>
 </body>
 </html>

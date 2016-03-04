@@ -10,7 +10,7 @@ var defaultIncreaseDecreaseMargemTop = 2;
 var defaultIncreaseDecreaseEspacamentoColunas = 2;
 var defaultIncreaseDecreaseEspacamentoLinhas = 2;
 var defaultCanvasWidth = 470;
-var defaultCanvasHeight = 480;
+var defaultCanvasHeight = 476;
 var defaultIncreaseDecreaseCanvasWidth = 10;
 var defaultIncreaseDecreaseCanvasHeight = 10;
 
@@ -51,6 +51,7 @@ var btnDiminuirAlturaTela = document.getElementById("diminuirAlturaTela");
 var cbMostrarBordas = document.getElementById("mostrarBordas");
 var cbPalavrasNaDireita = document.getElementById("palavrasNaDireita");
 var cbPalavrasNaEsquerda = document.getElementById("palavrasNaEsquerda");
+var txtTextoParaAdicionarAcima = document.getElementById("textoParaAdicionarAcima");
 
 textBoxPalavraParaAdicionar.focus();
 
@@ -74,6 +75,36 @@ var getPalavrasParaAdicionar = function() {
     
     return palavrasParaAdicionar;
 };
+
+txtTextoParaAdicionarAcima.addEventListener("keyup", function() {    
+    var configuracoesJogo = getConfiguracoesJogo();
+    
+    var divTextoAcima = document.getElementsByClassName("textoAcima")[0];
+    
+    if(this.value.trim() !== "") {
+        var tagPalavraAbertura = "<span class=\"palavra\">";
+        var tagPalavraFechamento = "</span>";
+        
+        var texto = this.value
+            .replace(/<palavra>|<p>|<w>/g, tagPalavraAbertura)
+            .toString()
+            .replace(/<\/palavra>|<\/p>|<\/w>/g, tagPalavraFechamento)
+            .toString()
+            .replace(/#\w+/g, function f(p) { return tagPalavraAbertura + p.slice(1, p.length) + tagPalavraFechamento; });
+        
+        divTextoAcima.style.width = configuracoesJogo.canvasWidth + "px";
+        divTextoAcima.style.display = "block";
+        divTextoAcima.innerHTML = texto;
+        
+        configuracoesJogo.textoAcima = texto;
+    }
+    else {
+        divTextoAcima.style.display = "none";
+        configuracoesJogo.textoAcima = "";
+    }
+    
+    textBoxResultado.value = JSON.stringify(configuracoesJogo);    
+});
 
 cbPalavrasNaDireita.addEventListener("click", function() {
     if(this.checked)

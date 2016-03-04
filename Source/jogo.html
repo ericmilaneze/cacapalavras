@@ -76,8 +76,9 @@
             </div>
 		</form>
 	</article>
-    <section id="esbocoJogo">
+    <section id="esbocoJogo" class="sectionJogo">
         <div class="linha">
+            <div class="textoAcima"></div>
             <canvas class="jogo" width="470" height="520"></canvas>
             <div class="palavrasDoJogo">
                 
@@ -112,6 +113,10 @@
             <input type="checkbox" id="mostrarBordas" class="opcaoEsboco" checked /><label for="mostrarBordas" class="checkbox">Bordas</label>
             <input type="checkbox" id="palavrasNaDireita" class="opcaoEsboco" checked /><label for="palavrasNaDireita" class="checkbox">Palavras na direita</label>
             <input type="checkbox" id="palavrasNaEsquerda" class="opcaoEsboco" /><label for="palavrasNaEsquerda" class="checkbox">Palavras na esquerda</label>
+        </div>
+        <div class="linha">
+            <label for="textoParaAdicionarAcima">Texto acima:</label>
+            <textarea id="textoParaAdicionarAcima"></textarea>
         </div>
     </section>
     
