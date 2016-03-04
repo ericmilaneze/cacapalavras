@@ -7,9 +7,11 @@
         var canvasJogo = this.querySelector("canvas.jogo");
                 
         var divReconfigurar = sectionAtual.querySelector("div.reconfigurar");
-        divReconfigurar.style.top = (canvasJogo.height - 15) + "px";
-        
         divReconfigurar.classList.remove("invisivel");
+        divReconfigurar.style.top = (canvasJogo.height - 15) + "px";
+        divReconfigurar.style.left = (canvasJogo.width + (canvasJogo.getBoundingClientRect().left - sectionAtual.getBoundingClientRect().left) - divReconfigurar.clientWidth - 15) + "px";
+        
+        sectionAtual.classList.add("mouseover");
     };
 
     var sectionJogoMouseOut = function() {
@@ -18,6 +20,8 @@
         var divReconfigurar = sectionAtual.querySelector("div.reconfigurar");
         
         divReconfigurar.classList.add("invisivel");
+        
+        sectionAtual.classList.remove("mouseover");
     };
 
     var reconfigurarLinkClick = function() {
@@ -30,25 +34,33 @@
         sectionAtual.querySelector("input.botaoOk").style.display = "inline";
         
         this.parentElement.classList.add("invisivel");
+        
+        sectionAtual.classList.remove("mouseover");
     };
 
     for (var i = 0; i < sectionsDeJogo.length; i++) {
-        desenharJogo(sectionsDeJogo[i], configuracoesDeJogoPadrao);
+        var sectionAtual = sectionsDeJogo[i];
+        
+        if(!sectionAtual.classList.contains("naoAdicionado")) {
+            desenharJogo(sectionAtual, configuracoesDeJogoPadrao);
 
-        sectionsDeJogo[i].querySelector("input.botaoOk").addEventListener("click", function() {
-            var sectionAtual = this.parentElement;
-            var txtConfig = sectionAtual.querySelector("input.configJogo");
+            sectionAtual.querySelector("input.botaoOk").addEventListener("click", function() {
+                var sectionAtual = this.parentElement;
+                var txtConfig = sectionAtual.querySelector("input.configJogo");
 
-            desenharJogo(sectionAtual, JSON.parse(txtConfig.value));
+                desenharJogo(sectionAtual, JSON.parse(txtConfig.value));
+                
+                txtConfig.style.display = "none";
+                this.style.display = "none";
+                
+                sectionAtual.addEventListener("mouseover", sectionJogoMouseOver);
+                sectionAtual.addEventListener("mouseout", sectionJogoMouseOut);
+                
+                sectionAtual.querySelector("div.reconfigurar > a").addEventListener("click", reconfigurarLinkClick);
+            });
+        }
+        else {
             
-            txtConfig.style.display = "none";
-            this.style.display = "none";
-            
-            sectionAtual.addEventListener("mouseover", sectionJogoMouseOver);
-            sectionAtual.addEventListener("mouseout", sectionJogoMouseOut);
-            
-            sectionAtual.querySelector("div.reconfigurar > a").addEventListener("click", reconfigurarLinkClick);
-        });
+        }
     }    
 })();
-

@@ -33,6 +33,10 @@ div.linha > label.checkbox {
     position: relative;
 }
 
+section.sectionJogo.mouseover {
+    border: 1px dashed blue;
+}
+
 #esbocoJogo {
     display: none;
 }
@@ -141,10 +145,13 @@ span.palavra {
 div.reconfigurar {
     display: block;
     margin-right: 10px;
-    right: 10px;
     position: absolute;
 }
 
 div.reconfigurar.invisivel {
+    display: none;
+}
+
+section.sectionJogo.naoAdicionado.invisivel {
     display: none;
 }
