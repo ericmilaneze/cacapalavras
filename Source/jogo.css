@@ -33,10 +33,6 @@ div.linha > label.checkbox {
     position: relative;
 }
 
-section.sectionJogo.mouseover {
-    border: 1px dashed blue;
-}
-
 #esbocoJogo {
     display: none;
 }
@@ -152,6 +148,31 @@ div.reconfigurar.invisivel {
     display: none;
 }
 
-section.sectionJogo.naoAdicionado.invisivel {
+section.sectionJogo.naoAdicionado {
+    width: 250px;
+    height: 250px;
+    line-height: 250px;
+}
+
+section.sectionJogo.naoAdicionado > a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: gray;
     display: none;
+}
+
+section:hover.sectionJogo.naoAdicionado {
+    border: 1px dashed gray;
+    cursor: pointer;
+}
+
+section:hover.sectionJogo.naoAdicionado > a {
+    display: block;
+    text-decoration: none;
+}
+
+input.configJogo {
+    width: 212px;
 }
