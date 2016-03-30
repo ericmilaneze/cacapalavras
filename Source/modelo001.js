@@ -1,4 +1,4 @@
-(function() {
+(function(desenharJogo) {
     var configuracoesDeJogoPadrao = {"possuiBordas":true,"canvasWidth":250,"canvasHeight":250,"config":{}};
 
     var sectionJogoMouseOver = function() {
@@ -121,7 +121,7 @@
         };
     };
     
-    var init = function() {
+    (function() {
         var sectionsDeJogo = document.getElementsByClassName("sectionJogo");
         
         for (var i = 0; i < sectionsDeJogo.length; i++) {
@@ -135,7 +135,5 @@
                 sectionAtual.classList.add("desenhado");
             }
         }
-    }
-    
-    init();
-})();
+    })();
+})($desenharJogo);
