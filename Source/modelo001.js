@@ -1,4 +1,4 @@
-(function(desenharJogo) {
+(function() {
     var configuracoesDeJogoPadrao = {"possuiBordas":true,"canvasWidth":250,"canvasHeight":250,"config":{}};
 
     var sectionJogoMouseOver = function() {
@@ -98,7 +98,7 @@
         var sectionAtual = this.parentElement;
         var txtConfig = sectionAtual.querySelector("input.configJogo");
 
-        desenharJogo(sectionAtual, JSON.parse(txtConfig.value));
+        $desenharJogo(sectionAtual, JSON.parse(txtConfig.value));
         
         txtConfig.style.display = "none";
         this.style.display = "none";
@@ -128,7 +128,7 @@
             var sectionAtual = sectionsDeJogo[i];
             
             if(!sectionAtual.classList.contains("naoAdicionado") && !sectionAtual.classList.contains("desenhado")) {
-                desenharJogo(sectionAtual, configuracoesDeJogoPadrao);
+                $desenharJogo(sectionAtual, configuracoesDeJogoPadrao);
 
                 sectionAtual.querySelector("input.botaoOk").addEventListener("click", botaoOkClick);
                 
@@ -136,4 +136,4 @@
             }
         }
     })();
-})($desenharJogo);
+})();

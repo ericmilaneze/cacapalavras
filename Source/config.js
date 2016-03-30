@@ -1,4 +1,4 @@
-(function(cacaPalavras) {
+(function() {
     var defaultFontSize = 16;
     var defaultFontFace = "Arial";
     var defaultIncreaseDecreaseFontSize = 1;
@@ -414,7 +414,7 @@
         configuracoesJogo.config.preenchimento.mesmaLetraDasPalavras = rbPreenchimentoMesmasLetras.checked;
         configuracoesJogo.config.preenchimento.letrasAceitas = (rbPreenchimentoLetrasAceitas.checked ? txtLetrasAceitas.value : "");
 
-        var jogoAtual = new cacaPalavras(configuracoesJogo.numeroDeLinhas, configuracoesJogo.numeroDeColunas, configuracoesJogo.podeCruzar, configuracoesJogo.chancesParaReverso, configuracoesJogo.chancesParaNaoReverso);
+        var jogoAtual = new $cacaPalavras(configuracoesJogo.numeroDeLinhas, configuracoesJogo.numeroDeColunas, configuracoesJogo.podeCruzar, configuracoesJogo.chancesParaReverso, configuracoesJogo.chancesParaNaoReverso);
 
         // adicionar palavras que estão na memória, pois já foram adicionadas antes
         jogoAtual.adicionarPalavras(configuracoesJogo.config);
@@ -459,4 +459,4 @@
             gerarJogo();
         }
     });
-})($cacaPalavras);
+})();

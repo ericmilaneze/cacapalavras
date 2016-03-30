@@ -1,4 +1,4 @@
-(function(cacaPalavras) {
+(function() {
     var desenharJogo = function(sectionJogo, configuracoesJogo) {
         if(configuracoesJogo !== undefined && configuracoesJogo.config !== undefined) {
             var divPalavrasDoJogo = sectionJogo.querySelector("div.palavrasDoJogo");
@@ -29,7 +29,7 @@
             
             ctxCanvasResposta.font = configuracoesJogo.font;
 
-            var jogoAtual = new cacaPalavras(configuracoesJogo.numeroDeLinhas, configuracoesJogo.numeroDeColunas, configuracoesJogo.podeCruzar, configuracoesJogo.chancesParaReverso, configuracoesJogo.chancesParaNaoReverso);
+            var jogoAtual = new $cacaPalavras(configuracoesJogo.numeroDeLinhas, configuracoesJogo.numeroDeColunas, configuracoesJogo.podeCruzar, configuracoesJogo.chancesParaReverso, configuracoesJogo.chancesParaNaoReverso);
             jogoAtual.adicionarPalavras(configuracoesJogo.config);
             
             var pxColunaInicial = configuracoesJogo.pxEspacamentoColunas;
@@ -65,10 +65,10 @@
         }
     };
     
-    if(cacaPalavras)
-        cacaPalavras.prototype.desenharJogo = desenharJogo;
-    
-    if(window)
+    if(window) {
         window.$desenharJogo = desenharJogo;
         
-})($cacaPalavras);
+        if(window.$cacaPalavras)
+            $cacaPalavras.prototype.desenharJogo = desenharJogo;
+    }
+})();
