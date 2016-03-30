@@ -16,7 +16,7 @@ div.caixa > div.linha > div.coluna, div.linha > div.coluna {
 }
 
 div.caixa > div.linha > div.coluna.coluna1, div.linha > div.coluna.coluna1 {
-    width: 120px;   
+    width: 120px;
     clear: both;
 }
 
@@ -61,6 +61,10 @@ input[type="number"], input[type="text"], select {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+}
+
+input[type="number"] {
+		width: 55px;
 }
 
 div.caixa > h3, #config > form > h2 {
