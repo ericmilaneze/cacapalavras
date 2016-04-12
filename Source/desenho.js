@@ -1,4 +1,4 @@
-(function() {
+(function(window) {
     var desenharJogo = function(sectionJogo, configuracoesJogo) {
         if(configuracoesJogo !== undefined && configuracoesJogo.config !== undefined) {
             var divPalavrasDoJogo = sectionJogo.querySelector("div.palavrasDoJogo");
@@ -71,4 +71,4 @@
         if(window.$cacaPalavras)
             $cacaPalavras.prototype.desenharJogo = desenharJogo;
     }
-})();
+})(window);

@@ -10,18 +10,22 @@
 	<script src="./lib/cacaPalavras.js"></script>
 </head>
 <body>
-    <section class="sectionJogo primeiroDaLinha">
-        <div class="linha">
-            <div class="textoAcima"></div>
-            <canvas class="jogo"></canvas>
-            <div class="palavrasDoJogo"></div>
-            <div class="clear"></div>
-            <div class="reconfigurar invisivel">
-                <a href="javascript:void(0)"><img src="./imagens/edit.png" /></a>
+    <div class="linhaDeJogos">
+        <section class="sectionJogo">
+            <div class="linha">
+                <div class="textoAcima"></div>
+                <canvas class="jogo"></canvas>
+                <div class="palavrasDoJogo"></div>
+                <div class="clear"></div>
+                <div class="configurar invisivel">
+                    <a href="javascript:void(0)" class="novoAbaixo">bbb</a>
+                    <a href="javascript:void(0)" class="novoDireita">>>></a>
+                    <a href="javascript:void(0)" class="reconfigurar"><img src="./imagens/edit.png" /></a>
+                </div>
             </div>
-        </div>
-        <input type="text" class="configJogo" /><input type="button" value="Ok" class="botaoOk" />
-    </section>
+            <input type="text" class="configJogo" /><input type="button" value="Ok" class="botaoOk" />
+        </section>
+    </div>
     
     <script src="./desenho.js"></script>
     <script src="./modelo001.js"></script>

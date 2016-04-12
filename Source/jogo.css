@@ -142,13 +142,13 @@ span.palavra {
     text-decoration: underline;
 }
 
-div.reconfigurar {
+div.configurar {
     display: block;
     margin-right: 10px;
     position: absolute;
 }
 
-div.reconfigurar.invisivel {
+div.configurar.invisivel {
     display: none;
 }
 

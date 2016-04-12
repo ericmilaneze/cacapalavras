@@ -1,4 +1,4 @@
-(function() {
+(function($cacaPalavras) {
     var defaultFontSize = 16;
     var defaultFontFace = "Arial";
     var defaultIncreaseDecreaseFontSize = 1;
@@ -459,4 +459,4 @@
             gerarJogo();
         }
     });
-})();
+})($cacaPalavras);

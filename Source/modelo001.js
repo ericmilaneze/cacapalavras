@@ -1,26 +1,118 @@
-(function() {
+(function($desenharJogo, window) {
     var configuracoesDeJogoPadrao = {"possuiBordas":true,"canvasWidth":250,"canvasHeight":250,"config":{}};
+
+    var inicializarSection = function(sectionAtual) {
+        if(!sectionAtual.classList.contains("naoAdicionado") && !sectionAtual.classList.contains("desenhado")) {
+            $desenharJogo(sectionAtual, configuracoesDeJogoPadrao);
+
+            sectionAtual.querySelector("input.botaoOk").addEventListener("click", botaoOkClick);
+            
+            sectionAtual.classList.add("desenhado");
+        }
+    };
+    
+    var criarDivClear = function() {
+        var divClear = document.createElement("div");
+        divClear.classList.add("clear");
+        
+        return divClear;
+    };
+    
+    var criarNovaSection = function() {
+        var novaSection = document.createElement("section");
+        novaSection.classList.add("sectionJogo");
+        
+        var divLinha = document.createElement("div");
+        divLinha.classList.add("linha");
+        
+        var divTextoAcima = document.createElement("div");
+        divTextoAcima.classList.add("textoAcima");
+        
+        var canvasJogo = document.createElement("canvas");
+        canvasJogo.classList.add("jogo");
+        
+        var divPalavrasDoJogo = document.createElement("div");
+        divPalavrasDoJogo.classList.add("palavrasDoJogo");
+        
+        var divConfigurar = document.createElement("div");
+        divConfigurar.classList.add("configurar");
+        divConfigurar.classList.add("invisivel");
+        
+        var aNovoAbaixo = document.createElement("a");
+        aNovoAbaixo.href = "javascript:void(0)";
+        aNovoAbaixo.classList.add("novoAbaixo");
+        aNovoAbaixo.innerHTML = "bbb";
+        
+        var aNovoDireita = document.createElement("a");
+        aNovoDireita.href = "javascript:void(0)";
+        aNovoDireita.classList.add("novoDireita");
+        aNovoDireita.innerHTML = ">>>";
+        
+        var aReconfigurar = document.createElement("a");
+        aReconfigurar.href = "javascript:void(0)";
+        aReconfigurar.classList.add("reconfigurar");
+        
+        var imgEdit = document.createElement("img");
+        imgEdit.src = "./imagens/edit.png";
+
+        var botaoConfigJogo = document.createElement("input");
+        botaoConfigJogo.type = "text";
+        botaoConfigJogo.classList.add("configJogo");
+        
+        var botaoOk = document.createElement("input");
+        botaoOk.type = "button";
+        botaoOk.value = "Ok";
+        botaoOk.classList.add("botaoOk");
+        
+        
+        aReconfigurar.appendChild(imgEdit);
+        divConfigurar.appendChild(aNovoAbaixo);
+        divConfigurar.appendChild(aNovoDireita);
+        divConfigurar.appendChild(aReconfigurar);
+        divLinha.appendChild(divTextoAcima);
+        divLinha.appendChild(canvasJogo);
+        divLinha.appendChild(divPalavrasDoJogo);
+        divLinha.appendChild(criarDivClear());
+        divLinha.appendChild(divConfigurar);
+        novaSection.appendChild(divLinha);
+        novaSection.appendChild(botaoConfigJogo);
+        novaSection.appendChild(botaoOk);
+        
+        return novaSection;
+    };
+    
+    var atualizarLinhaDeJogosWidth = function(section) {
+        var linhaDeJogos = section.parentElement;
+        
+        var todosCanvas = linhaDeJogos.querySelectorAll("section.sectionJogo div.linha canvas.jogo");
+        var todosPalavrasDoJogo = linhaDeJogos.querySelectorAll("section.sectionJogo div.linha div.palavrasDoJogo");
+        
+        var widthTotal = 0;
+        
+        for(var i = 0; i < todosCanvas.length; i++)
+            widthTotal += 
+                todosCanvas[i].offsetWidth + parseInt(window.getComputedStyle(todosCanvas[i])["marginLeft"]) + parseInt(window.getComputedStyle(todosCanvas[i])["marginRight"]) +
+                todosPalavrasDoJogo[i].offsetWidth + parseInt(window.getComputedStyle(todosPalavrasDoJogo[i])["marginLeft"]) + parseInt(window.getComputedStyle(todosPalavrasDoJogo[i])["marginRight"]);
+        
+        linhaDeJogos.style.width = widthTotal + "px";
+    };
 
     var sectionJogoMouseOver = function() {
         var sectionAtual = this;
         var canvasJogo = this.querySelector("canvas.jogo");
                 
-        var divReconfigurar = sectionAtual.querySelector("div.reconfigurar");
-        divReconfigurar.classList.remove("invisivel");
-        divReconfigurar.style.top = (canvasJogo.height + (canvasJogo.getBoundingClientRect().top - sectionAtual.getBoundingClientRect().top) - 20) + "px";
-        divReconfigurar.style.left = (canvasJogo.width + (canvasJogo.getBoundingClientRect().left - sectionAtual.getBoundingClientRect().left) - divReconfigurar.clientWidth) + "px";
-        
-        sectionAtual.classList.add("mouseover");
+        var divConfigurar = sectionAtual.querySelector("div.configurar");
+        divConfigurar.classList.remove("invisivel");
+        divConfigurar.style.top = (canvasJogo.height + (canvasJogo.getBoundingClientRect().top - sectionAtual.getBoundingClientRect().top) - 20) + "px";
+        divConfigurar.style.left = (canvasJogo.width + (canvasJogo.getBoundingClientRect().left - sectionAtual.getBoundingClientRect().left) - divConfigurar.clientWidth) + "px";
     };
 
     var sectionJogoMouseOut = function() {
         var sectionAtual = this;
                 
-        var divReconfigurar = sectionAtual.querySelector("div.reconfigurar");
+        var divConfigurar = sectionAtual.querySelector("div.configurar");
         
-        divReconfigurar.classList.add("invisivel");
-        
-        sectionAtual.classList.remove("mouseover");
+        divConfigurar.classList.add("invisivel");
     };
 
     var reconfigurarLinkClick = function() {
@@ -28,70 +120,49 @@
         
         sectionAtual.removeEventListener("mouseover", sectionJogoMouseOver);
         sectionAtual.removeEventListener("mouseout", sectionJogoMouseOut);
+        this.parentElement.classList.add("invisivel");
         
         sectionAtual.querySelector("input.configJogo").style.display = "inline";
         sectionAtual.querySelector("input.botaoOk").style.display = "inline";
-        
-        this.parentElement.classList.add("invisivel");
-        
-        sectionAtual.classList.remove("mouseover");
     };
     
-    var insertAfter = function(newElement, targetElement) {
-        var parent = targetElement.parentNode;
+    var novoDireitaLinkClick = function() {
+        var sectionAtual = this.parentElement.parentElement.parentElement;
+        var linhaDeJogos = sectionAtual.parentElement;
+        
+        // inserir ao lado direito
+        var novaSection = criarNovaSection();
+        sectionAtual.parentElement.insertBefore(novaSection, sectionAtual.nextSibling);
+        
+        inicializarSection(novaSection);
 
-        if(parent.lastchild === targetElement) 
-            parent.appendChild(newElement);
-        else
-            parent.insertBefore(newElement, targetElement.nextSibling);
+        atualizarLinhaDeJogosWidth(novaSection);
+        
+        atualizarLinhaDeJogosWidth(novaSection);
     };
     
-    var criarNovaSecton = function() {
-        var sectionAtual = this.parentElement;
+    var novoAbaixoLinkClick = function() {
+        var sectionAtual = this.parentElement.parentElement.parentElement;
+        var linhaDeJogos = sectionAtual.parentElement;
+        
+        
+        var novaLinhaDeJogos = document.createElement("div");
+        novaLinhaDeJogos.classList.add("linhaDeJogos");
+        
+        // inserir abaixo
+        var novoDivClear = criarDivClear();
+        
+        linhaDeJogos.parentElement.insertBefore(novoDivClear, linhaDeJogos.nextSibling);
+        novoDivClear.parentElement.insertBefore(novaLinhaDeJogos, novoDivClear.nextSibling);
+        
+        
+        var novaSection = criarNovaSection();
 
-        sectionAtual.innerHTML = "<div class=\"linha\"><div class=\"textoAcima\" style=\"display: none;\"></div><canvas class=\"jogo\" width=\"470\" height=\"456\"></canvas><div class=\"palavrasDoJogo\" style=\"display: none;\">Salma<br>Minas<br>Gerais<br>Marcia<br>Mirian<br>Ubirajara<br></div><div class=\"clear\"></div><div class=\"reconfigurar invisivel\" style=\"top: 444px; left: 445px;\"><a href=\"javascript:void(0)\"><img src=\"./imagens/edit.png\"></a></div></div><input type=\"text\" class=\"configJogo\"><input type=\"button\" value=\"Ok\" class=\"botaoOk\">";
+        novaLinhaDeJogos.appendChild(novaSection);
+
+        inicializarSection(novaSection);
         
-        sectionAtual.classList.remove("naoAdicionado");
-        sectionAtual.classList.add("sectionJogo");
-        
-        sectionAtual.style.width = "";
-        sectionAtual.style.height = "";
-        sectionAtual.style.lineHeight = "";
-        
-        init();
-    };
-    
-    var criarNovaSectionVazia = function(sectionAtual, elementoAnterior, isPrimeiroDaLinha) {
-        var height = (sectionAtual.getBoundingClientRect().bottom - sectionAtual.getBoundingClientRect().top);
-        
-        var newInsideLink = document.createElement("a");
-        newInsideLink.attributes["href"] = "javascript:void(0)";
-        newInsideLink.innerText = "Adicionar um novo.";
-        newInsideLink.addEventListener("click", criarNovaSecton);
-        
-        var newSection = document.createElement("section");
-        newSection.classList.add("sectionJogo");
-        newSection.classList.add("naoAdicionado");
-        newSection.appendChild(newInsideLink);
-        newSection.style.width = sectionAtual.clientWidth + "px";
-        newSection.style.height = height + "px";
-        newSection.style.lineHeight = height + "px";
-        
-        if(isPrimeiroDaLinha)
-            newSection.classList.add("primeiroDaLinha");
-        
-        insertAfter(newSection, elementoAnterior);
-        
-        return newSection;
-    };
-    
-    var criarDivPularLinha = function(sectionRecemAdicionada) {
-        var div = document.createElement("div");
-        div.classList.add("clear");
-        
-        insertAfter(div, sectionRecemAdicionada);
-        
-        return div;
+        atualizarLinhaDeJogosWidth(novaSection);
     };
     
     var botaoOkClick = function() {
@@ -106,19 +177,11 @@
         sectionAtual.addEventListener("mouseover", sectionJogoMouseOver);
         sectionAtual.addEventListener("mouseout", sectionJogoMouseOut);
         
-        sectionAtual.querySelector("div.reconfigurar > a").addEventListener("click", reconfigurarLinkClick);
+        sectionAtual.querySelector("div.configurar > a.reconfigurar").addEventListener("click", reconfigurarLinkClick);
+        sectionAtual.querySelector("div.configurar > a.novoDireita").addEventListener("click", novoDireitaLinkClick);
+        sectionAtual.querySelector("div.configurar > a.novoAbaixo").addEventListener("click", novoAbaixoLinkClick);
         
-        if(!sectionAtual.classList.contains("criado")) {
-            var sectionRecemAdicionada = criarNovaSectionVazia(sectionAtual, sectionAtual, false);
-            
-            if(sectionAtual.classList.contains("primeiroDaLinha")) {
-                var divPularLinha = criarDivPularLinha(sectionRecemAdicionada);
-                
-                criarNovaSectionVazia(sectionAtual, divPularLinha, true);
-            }
-        
-            sectionAtual.classList.add("criado");
-        };
+        atualizarLinhaDeJogosWidth(sectionAtual);
     };
     
     (function() {
@@ -127,13 +190,7 @@
         for (var i = 0; i < sectionsDeJogo.length; i++) {
             var sectionAtual = sectionsDeJogo[i];
             
-            if(!sectionAtual.classList.contains("naoAdicionado") && !sectionAtual.classList.contains("desenhado")) {
-                $desenharJogo(sectionAtual, configuracoesDeJogoPadrao);
-
-                sectionAtual.querySelector("input.botaoOk").addEventListener("click", botaoOkClick);
-                
-                sectionAtual.classList.add("desenhado");
-            }
+            inicializarSection(sectionAtual);
         }
     })();
-})();
+})($desenharJogo, window);
