@@ -38,6 +38,11 @@
         divConfigurar.classList.add("configurar");
         divConfigurar.classList.add("invisivel");
         
+        var aExcluir = document.createElement("a");
+        aExcluir.href = "javascript:void(0)";
+        aExcluir.classList.add("excluir");
+        aExcluir.innerHTML = "xxx";
+        
         var aNovoAbaixo = document.createElement("a");
         aNovoAbaixo.href = "javascript:void(0)";
         aNovoAbaixo.classList.add("novoAbaixo");
@@ -66,6 +71,7 @@
         
         
         aReconfigurar.appendChild(imgEdit);
+        divConfigurar.appendChild(aExcluir);
         divConfigurar.appendChild(aNovoAbaixo);
         divConfigurar.appendChild(aNovoDireita);
         divConfigurar.appendChild(aReconfigurar);
@@ -165,6 +171,19 @@
         atualizarLinhaDeJogosWidth(novaSection);
     };
     
+    var excluirLinkClick = function() {
+        var sectionAtual = this.parentElement.parentElement.parentElement;
+        var linhaDeJogos = sectionAtual.parentElement;
+        
+        var sectionExistente = linhaDeJogos.querySelectorAll("section.sectionJogo");
+
+        if(sectionExistente.length !== 1) {
+            linhaDeJogos.removeChild(sectionAtual);
+            
+            atualizarLinhaDeJogosWidth(sectionExistente);
+        }
+    };
+    
     var botaoOkClick = function() {
         var sectionAtual = this.parentElement;
         var txtConfig = sectionAtual.querySelector("input.configJogo");
@@ -180,6 +199,7 @@
         sectionAtual.querySelector("div.configurar > a.reconfigurar").addEventListener("click", reconfigurarLinkClick);
         sectionAtual.querySelector("div.configurar > a.novoDireita").addEventListener("click", novoDireitaLinkClick);
         sectionAtual.querySelector("div.configurar > a.novoAbaixo").addEventListener("click", novoAbaixoLinkClick);
+        sectionAtual.querySelector("div.configurar > a.excluir").addEventListener("click", excluirLinkClick);
         
         atualizarLinhaDeJogosWidth(sectionAtual);
     };
