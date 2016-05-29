@@ -33,32 +33,22 @@
         
         var divPalavrasDoJogo = document.createElement("div");
         divPalavrasDoJogo.classList.add("palavrasDoJogo");
-        
-        var divConfigurar = document.createElement("div");
-        divConfigurar.classList.add("configurar");
-        divConfigurar.classList.add("invisivel");
-        
-        var aExcluir = document.createElement("a");
-        aExcluir.href = "javascript:void(0)";
-        aExcluir.classList.add("excluir");
-        aExcluir.innerHTML = "xxx";
-        
-        var aNovoAbaixo = document.createElement("a");
-        aNovoAbaixo.href = "javascript:void(0)";
-        aNovoAbaixo.classList.add("novoAbaixo");
-        aNovoAbaixo.innerHTML = "bbb";
-        
-        var aNovoDireita = document.createElement("a");
-        aNovoDireita.href = "javascript:void(0)";
-        aNovoDireita.classList.add("novoDireita");
-        aNovoDireita.innerHTML = ">>>";
-        
+
         var aReconfigurar = document.createElement("a");
         aReconfigurar.href = "javascript:void(0)";
         aReconfigurar.classList.add("reconfigurar");
         
         var imgEdit = document.createElement("img");
         imgEdit.src = "./imagens/edit.png";
+        
+        var imgRemove = document.createElement("img");
+        imgRemove.src = "./imagens/remove.png";
+        
+        var imgNewDown = document.createElement("img");
+        imgNewDown.src = "./imagens/new_down.png";
+        
+        var imgNewRight = document.createElement("img");
+        imgNewRight.src = "./imagens/new_right.png";
 
         var botaoConfigJogo = document.createElement("input");
         botaoConfigJogo.type = "text";
@@ -69,6 +59,24 @@
         botaoOk.value = "Ok";
         botaoOk.classList.add("botaoOk");
         
+        var divConfigurar = document.createElement("div");
+        divConfigurar.classList.add("configurar");
+        divConfigurar.classList.add("invisivel");
+        
+        var aExcluir = document.createElement("a");
+        aExcluir.href = "javascript:void(0)";
+        aExcluir.classList.add("excluir");
+        aExcluir.appendChild(imgRemove);
+        
+        var aNovoAbaixo = document.createElement("a");
+        aNovoAbaixo.href = "javascript:void(0)";
+        aNovoAbaixo.classList.add("novoAbaixo");
+        aNovoAbaixo.appendChild(imgNewDown);
+        
+        var aNovoDireita = document.createElement("a");
+        aNovoDireita.href = "javascript:void(0)";
+        aNovoDireita.classList.add("novoDireita");
+        aNovoDireita.appendChild(imgNewRight);
         
         aReconfigurar.appendChild(imgEdit);
         divConfigurar.appendChild(aExcluir);

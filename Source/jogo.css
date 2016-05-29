@@ -148,6 +148,10 @@ div.configurar {
     position: absolute;
 }
 
+div.configurar a {
+    margin-left: 3px;
+}
+
 div.configurar.invisivel {
     display: none;
 }
